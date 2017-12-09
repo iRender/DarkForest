@@ -6,10 +6,11 @@ public class GameNetDiscover : NetworkDiscovery
 {
 	public int MatchTime = 5;
 
-	private bool matched = false;
+	public bool matched = false;
 
 	public override void OnReceivedBroadcast (string fromAddress, string data)
 	{
+		Debug.LogWarning ("match");
 		matched = true;
 
 		NetworkManager.singleton.networkAddress = fromAddress;
@@ -24,12 +25,14 @@ public class GameNetDiscover : NetworkDiscovery
 			return;
 		}
 
+		Debug.LogWarning ("StartAsClient");
 		StartAsClient ();
 
-		LeanTween.delayedCall (MatchTime, () => {
 
+		LeanTween.delayedCall (MatchTime, () => {
 			if (matched == false) {
 				NetworkManager.singleton.StartHost ();
+				Debug.LogWarning ("StartAsServer");
 				StartAsServer ();
 			}
 
