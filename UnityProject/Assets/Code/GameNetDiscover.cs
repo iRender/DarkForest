@@ -10,9 +10,9 @@ public class GameNetDiscover : NetworkDiscovery
 
 	public override void OnReceivedBroadcast (string fromAddress, string data)
 	{
-		if (isClient) {
-			Debug.LogWarning ("match");
+		Debug.LogWarning ("match");
 
+		if (isClient) {
 			matched = true;
 
 			NetworkManager.singleton.networkAddress = fromAddress;
@@ -33,12 +33,14 @@ public class GameNetDiscover : NetworkDiscovery
 		LeanTween.delayedCall (MatchTime, () => {
 			if (matched == false) {
 				
+				Application.runInBackground = true;
+
 				int serverPort = CreateServer ();
 				broadcastData = serverPort.ToString ();
 
 				Debug.LogWarning ("StartAsServer");
 				StartAsServer ();
-//				NetworkManager.singleton.StartHost ();
+				NetworkManager.singleton.StartHost ();
 			}
 		});
 	}
