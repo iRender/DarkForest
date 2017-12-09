@@ -14,17 +14,14 @@ public class MyselfPlayer : Role
 
 	public override void OnUpdate()
 	{
-		if (m_moveSpeed != Vector2.zero) {
-			Vector2 deltaPos = m_moveSpeed * Time.deltaTime;
-			Move (deltaPos);
-		}
+		
 	}
 
 	public override void Move (Vector2 delta_pos)
 	{
 		base.Move (delta_pos);
 
-		MoveCamera ();
+//		MoveCamera ();
 	}
 
 	public void MoveCamera()
