@@ -38,7 +38,7 @@ public class InputController : MonoBehaviour {
 //		Vector2 mouseMove = new Vector2 (xValueFromM, yValueFromM);
 		Vector2 mousePos = Input.mousePosition;
 		Vector2 screenCenter = new Vector2 (Screen.width / 2, Screen.height / 2);
-		Vector2 mouseDir = screenCenter - mousePos;
+		Vector2 mouseDir = mousePos - screenCenter;
 		MyselfPlayer.m_instance.m_vp.RotateTo (mouseDir);
 
 		if (Input.GetMouseButtonDown (0)) {

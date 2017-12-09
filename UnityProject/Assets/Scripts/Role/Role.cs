@@ -139,6 +139,7 @@ public class Role : MonoBehaviour
 		rolePos.y += heigtOfGun;
 		bullet.transform.localPosition = rolePos;
 		bullet.m_moveSpeed = dir.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
+		bullet.RotateTo (dir);
 	}
 
 	public void Dead()

@@ -44,7 +44,7 @@ public class ViewPort : MonoBehaviour {
 		}
 		Quaternion quat = transform.localRotation;
 		Vector3 localRot = quat.eulerAngles;
-		localRot.z = angle;
+		localRot.z = angle - 180;
 		quat.eulerAngles = localRot;
 		transform.localRotation = quat;
 //		Rotate (-angle);
