@@ -20,7 +20,7 @@ public class MyselfPlayer : Role
 
 	public override void OnUpdate ()
 	{
-		if (Input.GetKeyDown (KeyCode.M)) {
+		if (data.isMyself && Input.GetKeyDown (KeyCode.M)) {
 			data.Cmd_DoChangeState (10);
 		}
 	}

@@ -74,6 +74,7 @@ public class PlayerData : NetworkBehaviour
 	[ClientCallback]
 	public void OnStateChanage (int state)
 	{
+		mstate = state;
 		role.OnStateChanage (state);
 	}
 
