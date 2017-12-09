@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ChestTile : ItemTile {
-
-    public UI2DSpriteAnimation open;
+public class BulletTile : ItemTile {
 
 	// Use this for initialization
 	void Start () {
@@ -17,11 +15,6 @@ public class ChestTile : ItemTile {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Trigger:" + collision.gameObject.name);
+        
     }
-
-    public void Open() {
-        open.Play();
-    }
-
 }
