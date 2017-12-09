@@ -32,13 +32,14 @@ public class GameNetDiscover : NetworkDiscovery
 
 		LeanTween.delayedCall (MatchTime, () => {
 			if (matched == false) {
-				
-				Application.runInBackground = true;
+				StopBroadcast ();
+
+				Debug.LogWarning ("StartAsServer");
+//				Application.runInBackground = true;
 
 				int serverPort = CreateServer ();
 				broadcastData = serverPort.ToString ();
 
-				Debug.LogWarning ("StartAsServer");
 				StartAsServer ();
 				NetworkManager.singleton.StartHost ();
 			}
