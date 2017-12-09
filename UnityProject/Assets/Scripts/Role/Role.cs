@@ -101,7 +101,7 @@ public class Role : MonoBehaviour
 
 	public virtual void MoveToward(Vector2 direction)
 	{
-		MoveDir = direction;
+		m_moveSpeed = direction.normalized * m_initMoveSpeed; 
 		PlayRunAnim ();
 	}
 

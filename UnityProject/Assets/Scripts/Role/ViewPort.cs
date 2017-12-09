@@ -42,7 +42,6 @@ public class ViewPort : MonoBehaviour {
 		if (targetDir.y < 0) {
 			angle = 360 - angle;
 		}
-		Debug.Log (angle);
 		Quaternion quat = transform.localRotation;
 		Vector3 localRot = quat.eulerAngles;
 		localRot.z = angle;
