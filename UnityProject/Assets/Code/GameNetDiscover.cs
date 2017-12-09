@@ -10,6 +10,8 @@ public class GameNetDiscover : MonoBehaviour
 	public int PlayerLimitNum = 4;
 	public bool ShowGUI = true;
 
+	bool running = false;
+
 	public bool isNetConnect {
 		get {
 			return NetworkManager.singleton.isNetworkActive;
@@ -18,6 +20,8 @@ public class GameNetDiscover : MonoBehaviour
 
 	void Start ()
 	{
+		running = false;
+
 		server.showGUI = ShowGUI;
 		client.showGUI = false;
 	}
@@ -28,6 +32,12 @@ public class GameNetDiscover : MonoBehaviour
 
 	public void Run ()
 	{
+		if (running == true) {
+			return;
+		}
+
+		running = true;
+
 		client.gameObject.SetActive (true);
 
 		LeanTween.delayedCall (MatchTime, () => {
@@ -39,19 +49,19 @@ public class GameNetDiscover : MonoBehaviour
 
 		});
 	}
+
 	public void ShutDown ()
 	{
 		server.gameObject.SetActive (false);	
 		client.gameObject.SetActive (false);	
 	}
 
-	bool shutDown = false;
 
 	void LateUpdate ()
 	{
-		if (!shutDown) {
+		if (running) {
 			if (NetworkManager.singleton.numPlayers > PlayerLimitNum) {
-				shutDown = true;
+				running = false;
 				server.gameObject.SetActive (false);	
 			}
 		}
