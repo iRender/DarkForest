@@ -12,16 +12,11 @@ public class Role : MonoBehaviour
 
 	public int m_id;
 
-	public UISpriteAnimation m_animRun;
-	public UISprite m_spRun;
-	public UISpriteAnimation m_animIdle;
-	public UISprite m_spIdle;
-	public UISpriteAnimation m_animAttack;
-	public UISprite m_spAttack;
-	public UISpriteAnimation m_animDead;
-	public UISprite m_spDead;
+	public UISpriteAnimation m_spAnim;
+	public UISprite m_sp;
 
 	public float m_initMoveSpeed;
+	public float m_initRunSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
 	public Vector2 MoveSpeed
 	{
@@ -74,9 +69,15 @@ public class Role : MonoBehaviour
 		}
 	}
 
+	public string m_idleAnimPre;
+	public string m_walkAnimPre;
+	public string m_runAnimPre;
+	public string m_deadAnimPre;
+
+
 	void Awake()
 	{
-		m_animRun.Pause ();
+		Idle ();
 		RolesManager.ins.AddRole (this);
 
 		OnAwake ();
@@ -86,7 +87,7 @@ public class Role : MonoBehaviour
 	{
 		
 	}
-		
+
 	public virtual void MoveToward(Vector2 direction)
 	{
 		MoveDir = direction;
@@ -95,7 +96,12 @@ public class Role : MonoBehaviour
 
 	public virtual void Move(Vector2 delta_pos)
 	{
-		transform.Translate (delta_pos.x, delta_pos.y, 0);
+		Vector2 targetPos = Current2DPos + delta_pos;
+		TweenPosition.Begin (gameObject, 0, targetPos);
+		if (delta_pos.x > 0)
+			FaceRight ();
+		else
+			FaceLeft ();
 		PlayRunAnim ();
 	}
 
@@ -115,7 +121,7 @@ public class Role : MonoBehaviour
 
 	public void Attack()
 	{
-		PlayAttackAnim ();
+		
 	}
 
 	public void Gecao()
@@ -140,40 +146,46 @@ public class Role : MonoBehaviour
 
 	public void PlayRunAnim()
 	{
-		m_animRun.gameObject.SetActive (true);
-		m_animIdle.gameObject.SetActive (false);
-		m_animRun.Play ();
+		m_spAnim.namePrefix = m_runAnimPre;
 	}
 
 	public void PlayIdleAnim()
 	{
-		m_animIdle.gameObject.SetActive (true);
-		m_animRun.gameObject.SetActive (false);
-		m_animIdle.Play ();
+		m_spAnim.namePrefix = m_idleAnimPre;
 	}
 
-	public void PlayGecaoAnim()
+	public void PlayWalkAnim()
 	{
-		
-	}
-
-	public void PlayAttackAnim()
-	{
-		m_animIdle.gameObject.SetActive (false);
-		m_animRun.gameObject.SetActive (false);
+		m_spAnim.namePrefix = m_walkAnimPre;
 	}
 
 	public void PlayDeadAnim()
 	{
-		m_animIdle.gameObject.SetActive (false);
-		m_animRun.gameObject.SetActive (false);
+		m_spAnim.namePrefix = m_deadAnimPre;
 	}
 
 	public void SetDepth(int depth)
 	{
-		m_spIdle.depth = depth;
-		m_spRun.depth = depth;
-//		m_spAttack.depth = depth;
-//		m_spDead.depth = depth;
+		m_sp.depth = depth;
+	}
+
+	public void FaceLeft()
+	{
+		m_sp.flip = UIBasicSprite.Flip.Nothing;
+	}
+
+	public void FaceRight()
+	{
+		m_sp.flip = UIBasicSprite.Flip.Horizontally;
+	}
+
+	public void Collide_Collision(Collision2D coll)
+	{
+		Debug.Log (coll.gameObject.name);
+	}
+
+	public void Collide_Collider(Collider2D coll)
+	{
+		Debug.Log (coll.gameObject.name);
 	}
 }
