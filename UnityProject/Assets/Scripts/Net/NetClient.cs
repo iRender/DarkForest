@@ -2,21 +2,29 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class NetClient : NetworkDiscovery {
+public class NetClient : NetworkDiscovery
+{
 
 	// Use this for initialization
-	void Start () {
-		StartClient();
-	}
-	
-	public void StartClient()
+	void Start ()
 	{
-		Initialize();
-		StartAsClient();
+		StartClient ();
 	}
 
-	public override void OnReceivedBroadcast(string fromAddress, string data)
+	public void StartClient ()
 	{
-		Debug.Log("Server Found");
+		Initialize ();
+		StartAsClient ();
+	}
+
+	public override void OnReceivedBroadcast (string fromAddress, string fromPort)
+	{
+		Debug.LogWarning ("match");
+
+		NetworkManager.singleton.networkAddress = fromAddress;
+		NetworkManager.singleton.networkPort = int.Parse (fromPort);
+		NetworkManager.singleton.StartClient ();
+
+		gameObject.SetActive (false);
 	}
 }
