@@ -107,11 +107,21 @@ public class Role : MonoBehaviour
 		PlayRunAnim ();
 	}
 
-	public virtual void MoveTo (Vector2 target_pos)
+	public virtual void MoveTo (Vector2 target_pos, System.Action callback = null)
 	{
 		float dis = Vector2.Distance (Current2DPos, target_pos);
-		float duration = dis / MoveSpeed.magnitude;
+		float duration = dis / m_initMoveSpeed;
+		Debug.Log ("111");
 		TweenPosition tp = TweenPosition.Begin (gameObject, duration, target_pos);
+		if (m_acce) {
+			PlayRunAnim ();	
+		} else {
+			PlayWalkAnim ();
+		}
+		tp.SetOnFinished (() => {
+			if (callback != null)
+				callback ();
+		});
 		tp.method = UITweener.Method.Linear;
 	}
 
