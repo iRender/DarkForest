@@ -19,6 +19,7 @@ public class Role : MonoBehaviour
 	public float m_initMoveSpeed;
 	public float m_initRunSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
+	public PlayerData data;
 
 	public Vector2 MoveSpeed {
 		set { 
@@ -73,7 +74,6 @@ public class Role : MonoBehaviour
 	void Awake ()
 	{
 		Idle ();
-		RolesManager.ins.AddRole (this);
 
 		OnAwake ();
 	}
@@ -86,6 +86,8 @@ public class Role : MonoBehaviour
 	void Start ()
 	{
 		OnStart ();
+
+		RolesManager.ins.AddRole (this);
 	}
 
 	public virtual void OnStart ()
