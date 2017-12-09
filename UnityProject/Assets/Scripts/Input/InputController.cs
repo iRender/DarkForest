@@ -32,7 +32,7 @@ public class InputController : MonoBehaviour {
 		MyselfPlayer.m_instance.MoveSpeed = moveDir * MyselfPlayer.m_instance.m_initMoveSpeed;
 
 		if (Input.GetMouseButtonDown (0)) {
-			
+			MyselfPlayer.m_instance.Attack ();
 		}
 		if (Input.GetMouseButtonDown(1)) {
 			

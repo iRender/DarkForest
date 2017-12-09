@@ -3,11 +3,12 @@ using System.Collections;
 
 public class BulletsManager : MonoSingleton<BulletsManager> {
 	public GameObject m_prefabBullet;
+	public float m_flySpeed;
 
-	public Bullet CreateBullet()
+	public MyBullet CreateBullet()
 	{
 		GameObject goBullet = GameObject.Instantiate (m_prefabBullet);
 		goBullet.transform.parent = transform;
-		return goBullet.GetComponent<Bullet> ();
+		return goBullet.GetComponent<MyBullet> ();
 	}
 }

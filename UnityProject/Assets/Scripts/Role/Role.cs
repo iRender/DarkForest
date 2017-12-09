@@ -132,12 +132,10 @@ public class Role : MonoBehaviour
 
 	public void Attack()
 	{
-		
-	}
-
-	public void Gecao()
-	{
-		
+		MyBullet bullet = BulletsManager.ins.CreateBullet ();
+		bullet.m_initMoveSpeed = BulletsManager.ins.m_flySpeed;
+		bullet.transform.localPosition = transform.localPosition;
+		bullet.MoveSpeed = Vector2.one.normalized * BulletsManager.ins.m_flySpeed;
 	}
 
 	void Update()
