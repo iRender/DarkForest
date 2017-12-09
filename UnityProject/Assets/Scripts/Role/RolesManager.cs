@@ -28,7 +28,7 @@ public class RolesManager : MonoSingleton<RolesManager>
 
 	public void AddRole (Role role)
 	{
-		m_rolesDic.Add (role.data.guid, role);
+		m_rolesDic.Add (role.m_id, role);
 		m_rolesList.Add (role);
 	}
 }

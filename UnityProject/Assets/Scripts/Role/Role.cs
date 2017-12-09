@@ -8,9 +8,12 @@ public class Role : MonoBehaviour
 		None,
 		Myself
 	}
+
 	public E_Type m_type;
 
 	public int m_id;
+
+	public PlayerData data;
 
 	public UISpriteAnimation m_spAnim;
 	public UISprite m_sp;
@@ -18,42 +21,36 @@ public class Role : MonoBehaviour
 	public float m_initMoveSpeed;
 	public float m_initRunSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
-	public Vector2 MoveSpeed
-	{
-		set
-		{ 
+
+	public Vector2 MoveSpeed {
+		set { 
 			if (value == Vector2.zero) {
 				Idle ();
 			}
 			m_moveSpeed = value;
 		}
 	}
-	public float MoveSpeedValue
-	{
-		get
-		{ 
+
+	public float MoveSpeedValue {
+		get { 
 			return m_moveSpeed.magnitude;
 		}
-		set
-		{ 
+		set { 
 			m_moveSpeed = MoveDir * value;
 		}
 	}
-	public Vector2 MoveDir
-	{
-		get
-		{
+
+	public Vector2 MoveDir {
+		get {
 			return m_moveSpeed.normalized;
 		}
-		set
-		{
+		set {
 			m_moveSpeed = value.normalized * MoveSpeedValue;
 		}
 	}
-	public Vector2 Current2DPos
-	{
-		get
-		{ 
+
+	public Vector2 Current2DPos {
+		get { 
 			Vector2 vec2 = Vector2.zero;
 			vec2.x = transform.localPosition.x;
 			vec2.y = transform.localPosition.y;
@@ -61,10 +58,8 @@ public class Role : MonoBehaviour
 		}
 	}
 
-	public float PosYValue
-	{
-		get
-		{ 
+	public float PosYValue {
+		get { 
 			return transform.localPosition.y;
 		}
 	}
@@ -77,36 +72,38 @@ public class Role : MonoBehaviour
 	public ViewPort m_vp;
 	public float heigtOfGun;
 
-	void Awake()
+	void Awake ()
 	{
 		Idle ();
-		RolesManager.ins.AddRole (this);
 
 		OnAwake ();
 	}
 
-	public virtual void OnAwake()
+	public virtual void OnAwake ()
 	{
 		
 	}
 
-	void Start()
+	void Start ()
 	{
 		OnStart ();
+
+		m_id = data.guid;
+		RolesManager.ins.AddRole (this);
 	}
 
-	public virtual void OnStart()
+	public virtual void OnStart ()
 	{
 		
 	}
 
-	public virtual void MoveToward(Vector2 direction)
+	public virtual void MoveToward (Vector2 direction)
 	{
 		m_moveSpeed = direction.normalized * m_initMoveSpeed; 
 		PlayRunAnim ();
 	}
 
-	public virtual void Move(Vector2 delta_pos)
+	public virtual void Move (Vector2 delta_pos)
 	{
 		Vector2 targetPos = Current2DPos + delta_pos;
 		TweenPosition.Begin (gameObject, 0, targetPos);
@@ -117,7 +114,7 @@ public class Role : MonoBehaviour
 		PlayRunAnim ();
 	}
 
-	public virtual void MoveTo(Vector2 target_pos)
+	public virtual void MoveTo (Vector2 target_pos)
 	{
 		float dis = Vector2.Distance (Current2DPos, target_pos);
 		float duration = dis / MoveSpeedValue;
@@ -125,13 +122,13 @@ public class Role : MonoBehaviour
 		tp.method = UITweener.Method.Linear;
 	}
 
-	public void Idle()
+	public void Idle ()
 	{
 		m_moveSpeed = Vector2.zero;
 		PlayIdleAnim ();
 	}
 
-	public void Attack()
+	public void Attack ()
 	{
 		MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
 		bullet.m_owner = this;
@@ -141,7 +138,7 @@ public class Role : MonoBehaviour
 		bullet.m_moveSpeed = Vector2.right.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
 	}
 
-	void Update()
+	void Update ()
 	{
 		if (MoveSpeedValue > 0) {
 			Vector2 deltaPos = m_moveSpeed * Time.deltaTime;
@@ -151,53 +148,58 @@ public class Role : MonoBehaviour
 		OnUpdate ();
 	}
 
-	public virtual void OnUpdate()
+	public virtual void OnUpdate ()
 	{
 		
 	}
 
-	public void PlayRunAnim()
+	public void PlayRunAnim ()
 	{
 		m_spAnim.namePrefix = m_runAnimPre;
 	}
 
-	public void PlayIdleAnim()
+	public void PlayIdleAnim ()
 	{
 		m_spAnim.namePrefix = m_idleAnimPre;
 	}
 
-	public void PlayWalkAnim()
+	public void PlayWalkAnim ()
 	{
 		m_spAnim.namePrefix = m_walkAnimPre;
 	}
 
-	public void PlayDeadAnim()
+	public void PlayDeadAnim ()
 	{
 		m_spAnim.namePrefix = m_deadAnimPre;
 	}
 
-	public void SetDepth(int depth)
+	public void SetDepth (int depth)
 	{
 		m_sp.depth = depth;
 	}
 
-	public void FaceLeft()
+	public void FaceLeft ()
 	{
 		m_sp.flip = UIBasicSprite.Flip.Nothing;
 	}
 
-	public void FaceRight()
+	public void FaceRight ()
 	{
 		m_sp.flip = UIBasicSprite.Flip.Horizontally;
 	}
 
-	public void Collide_Collision(Collision2D coll)
+	public void Collide_Collision (Collision2D coll)
 	{
 		GameManager.Log (coll.gameObject.name);
 	}
 
-	public void Collide_Collider(Collider2D coll)
+	public void Collide_Collider (Collider2D coll)
 	{
 		GameManager.Log (coll.gameObject.name);
+	}
+
+	public virtual void OnStateChanage (int state)
+	{
+		Debug.Log ("Role:" + state);
 	}
 }
