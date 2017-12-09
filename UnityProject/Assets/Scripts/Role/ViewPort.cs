@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ViewPort : MonoBehaviour {
 	public Collider2D m_viewPortColli;
@@ -50,12 +51,22 @@ public class ViewPort : MonoBehaviour {
 //		Rotate (-angle);
 	}
 
+	public List<GrassTile> m_listGrass = new List<GrassTile>();
+
+	public void ViewHide()
+	{
+		foreach (GrassTile gt in m_listGrass) {
+			gt.ViewHide ();
+		}
+	}
+
 	void OnTriggerEnter2D(Collider2D coll)
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			GrassTile gt = coll.GetComponent<GrassTile> ();
 			gt.ViewClear ();
+			m_listGrass.Add (gt);
 		}
 	}
 
@@ -65,6 +76,7 @@ public class ViewPort : MonoBehaviour {
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			GrassTile gt = coll.GetComponent<GrassTile> ();
 			gt.ViewHide ();
+			m_listGrass.Remove (gt);
 		}
 	}
 }

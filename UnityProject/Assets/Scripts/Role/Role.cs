@@ -71,7 +71,7 @@ public class Role : MonoBehaviour
 
 	void Awake ()
 	{
-		Idle ();
+		
 
 		OnAwake ();
 	}
@@ -83,12 +83,15 @@ public class Role : MonoBehaviour
 
 	void Start ()
 	{
-		OnStart ();
+		
 
 		if (data != null) {
 			m_id = data.guid;
 		}
 		RolesManager.ins.AddRole (this);
+		Idle ();
+
+		OnStart ();
 	}
 
 	public virtual void OnStart ()
@@ -111,7 +114,6 @@ public class Role : MonoBehaviour
 	{
 		float dis = Vector2.Distance (Current2DPos, target_pos);
 		float duration = dis / m_initMoveSpeed;
-		Debug.Log ("111");
 		TweenPosition tp = TweenPosition.Begin (gameObject, duration, target_pos);
 		if (m_acce) {
 			PlayRunAnim ();	
@@ -145,7 +147,7 @@ public class Role : MonoBehaviour
 	public void Dead()
 	{
 		PlayDeadAnim ();
-		MoveSpeed = Vector2.zero;
+		m_moveSpeed = Vector2.zero;
 		m_bDead = true;
 	}
 
@@ -181,11 +183,8 @@ public class Role : MonoBehaviour
 
 	public void PlayDeadAnim ()
 	{
-		m_spAnim.namePrefix = m_deadAnimPre;
-
 		m_spAnim.loop = false;
-		m_spAnim.Play ();
-		Debug.Log (m_deadAnimPre);
+		m_spAnim.namePrefix = m_deadAnimPre;
 	}
 
 	public void SetDepth (int depth)
@@ -210,13 +209,31 @@ public class Role : MonoBehaviour
 		GameManager.Log (coll.gameObject.name);
 	}
 
-	public void Collide_Collider (Collider2D coll)
+	public int m_countGrassColl;
+	public void Collide_Collider_Enter (Collider2D coll)
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
 			ChestTile gt = coll.GetComponent<ChestTile> ();
-			MyselfPlayer.m_instance.OpenBox (gt);
+			OpenBox (gt);
 			gt.gameObject.SetActive (false);
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl++;
+			OpenVP ();
+		} 
+	}
+
+	public void Collide_Collider_Exit(Collider2D coll)
+	{
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl--;
+			if (m_countGrassColl <= 0) {
+				CloseViewPort ();
+				m_vp.ViewHide ();
+				coll.GetComponent<GrassTile> ().ViewHide ();
+			}
 		} 
 	}
 
@@ -243,11 +260,20 @@ public class Role : MonoBehaviour
 
 	public void OpenBox(ChestTile ct)
 	{
-		Debug.Log ("111");
 		PropType pt = ct.Open ();
 		Debug.Log (pt);
 		if (pt == PropType.BurningBottle) {
 			InstallBottle ();
 		}
+	}
+
+	public void CloseViewPort()
+	{
+		m_vp.gameObject.SetActive (false);
+	}
+
+	public void OpenVP()
+	{
+		m_vp.gameObject.SetActive (true);
 	}
 }
