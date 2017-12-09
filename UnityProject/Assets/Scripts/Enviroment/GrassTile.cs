@@ -17,6 +17,7 @@ public class GrassTile : LandTile
 
 	void Start()
 	{
+		anim.namePrefix = " ";
 	}
 	
 	public void Sway()

@@ -5,7 +5,10 @@ using UnityEngine;
 public enum LandType
 {
 	Soil,
-	Grass
+	Grass,
+	Stone,
+	Tree,
+	Pile
 }
 
 public enum ItemType
@@ -26,26 +29,30 @@ public struct Int2
 public class GameLand
 {
 	public LandTile tile;
-	public Int2[] areas;
-}
-
-[System.Serializable]
-public class GameItem
-{
-	public ItemTile tile;
-	public Int2[] areas;
+	public float weight = 1;
+	[HideInInspector]
+	public float max;
+	[HideInInspector]
+	public float min;
 }
 
 
 public class GrassLand : MonoBehaviour
 {
+	public float width;
+	public float height;
 
-	public int columns = 3;
-	public int rows = 3;
+	public int columns = 16;
+	public int rows = 16;
 	public UISprite soilPrefab;
 
+	public int ChestCount = 5;
+	public int BulletCount = 5;
+
+	public ChestTile chestPrefab;
+	public BulletTile bulletPrefab;
+
 	public GameLand[] lands;
-	public GameItem[] items;
 
 	private GameObject _root;
 	private int tileSize = 165;
@@ -78,13 +85,12 @@ public class GrassLand : MonoBehaviour
 	void Start ()
 	{
 		GenerateTile ();
+		width = columns * tileSize;
+		height = rows * tileSize;
 	}
 
 	void GenerateTile ()
 	{
-
-		tiles = new Tile[rows][];
-
 		GameObject emptyLayer = new GameObject ("Empty");
 		GameObject itemLayer = new GameObject ("Item");
 		GameObject landLayer = new GameObject ("Land");
@@ -100,6 +106,7 @@ public class GrassLand : MonoBehaviour
 
 
 		// Empty Tile
+		tiles = new Tile[rows][];
 		for (int r = 0; r < rows; r++) {
 			tiles [r] = new Tile[columns];
 			for (int c = 0; c < columns; c++) {
@@ -109,7 +116,6 @@ public class GrassLand : MonoBehaviour
 				soil.transform.localPosition = new Vector3 (c * 495, r * 495, 0);
 			}
 		}
-
 
 
 		rows *= 3;
@@ -126,31 +132,43 @@ public class GrassLand : MonoBehaviour
 			}
 		}
 
-		// Item Tile
-		foreach (GameItem item in items) {
-			foreach (Int2 area in item.areas) {
-				Tile t = tiles [area.row][area.column];
-				t.item = Instantiate<ItemTile> (item.tile);
-				t.item.transform.parent = itemLayer.transform;
-				t.item.transform.localScale = Vector3.one;
-				t.item.row = area.row;
-				t.item.column = area.column;
-				SetSprite (t.item.sprite, area.row, area.column, 200);
+		// Random Land
+		float weights = 0;
+		foreach (var land in lands) {
+			weights += land.weight;
+		}
+		Debug.Log ("Weights: " + weights);
+		foreach (var land in lands) {
+			land.weight = land.weight / weights;
+		}
+		float w = 0;
+		foreach (var land in lands) {
+			land.min = w;
+			land.max = w + land.weight;
+			w = land.max;
+		}
+
+
+		for (int row = 0; row < rows; row++) {
+			for (int column = 0; column < columns; column++) {
+				float r = Random.Range (0.0f, 1.0f);
+				Debug.Log ("Random: " + r);
+				foreach (var land in lands) {
+					if (land.tile.type != LandType.Soil && r >= land.min && r <= land.max) {
+						Tile t = tiles [row] [column];
+						t.land = Instantiate (land.tile);
+						t.land.transform.parent = landLayer.transform;
+						t.land.transform.localScale = Vector3.one;
+						t.land.row = row;
+						t.land.column = column;
+						SetSprite (t.land.sprite, row, column, 300);
+						Debug.Log ("type: " + land.tile.type + "min: " + land.min + "max: " + land.max);
+						break;
+					} 
+				}
 			}
 		}
 
-		// Land Tile
-		foreach (GameLand land in lands) {
-			foreach (Int2 area in land.areas) { 
-				Tile t = tiles [area.row][area.column];
-				t.land = Instantiate<LandTile> (land.tile);
-				t.land.transform.parent = landLayer.transform;
-				t.land.transform.localScale = Vector3.one;
-				t.land.row = area.row;
-				t.land.column = area.column;
-				SetSprite (t.land.sprite, area.row, area.column, 300);
-			}
-		}
 	}
 
 	void SetSprite (UISprite uisprite, int row, int column, int depth)
@@ -163,7 +181,7 @@ public class GrassLand : MonoBehaviour
         if (collider != null)
         {
 			Vector3 l = uisprite.transform.localPosition;
-			uisprite.transform.localPosition = new Vector3 (l.x - (uisprite.width - 165) / 2, l.y - (uisprite.height / 2 - collider.offset.y) / 2, l.z);
+			uisprite.transform.localPosition = new Vector3 (l.x - (collider.offset.x - 82.5f), l.y - (collider.offset.y - 82.5f), l.z);
         }
 
 	}
@@ -172,9 +190,16 @@ public class GrassLand : MonoBehaviour
 	{
 	}
 
-    public Tile GetTile(Vector2 point) {
-        Tile t = new Tile();
-        return t;
-    }
+	public Tile GetTile(Vector2 pos) {
+		int r = (int) (pos.y % tileSize);
+		if (r < 0 || r >= rows) {
+			return null;
+		}
+		int c = (int) (pos.x % tileSize);
+		if (c < 0 || c >= columns) {
+			return null;
+		}
+		return tiles [r] [c];
+	}
 
 }
