@@ -5,13 +5,16 @@ using UnityEngine.Networking;
 public class PlayerController : NetworkBehaviour
 {
 	[SyncVar]  
-	private Vector3 syncPlayerPos;
+	public Vector3 syncPlayerPos;
 
 	[SyncVar]  
-	private Quaternion syncPlayerRotate;
+	public Quaternion syncPlayerRotate;
 
-	private float speed = 10f;
-	private float rotateSpeed = 60f;
+	public GameObject bulletPrefab;
+	public Transform bulletSpawn;
+
+	public float speed = 10f;
+	public float rotateSpeed = 60f;
 
 	public override void OnStartLocalPlayer()
 	{
@@ -29,6 +32,11 @@ public class PlayerController : NetworkBehaviour
 
 		transform.Translate(Hor * Time.deltaTime * speed, 0, ver * speed * Time.deltaTime);  
 		transform.Rotate(new Vector3(0, rotateSpeed * Hor * Time.deltaTime, 0)); 
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			CmdFire();
+		}
 	}
 
 	void FixedUpdate()
@@ -57,5 +65,24 @@ public class PlayerController : NetworkBehaviour
 	{
 		syncPlayerPos = pos;
 		syncPlayerRotate = rotate;
+	}
+
+	[Command]
+	void CmdFire()
+	{
+		// Create the Bullet from the Bullet Prefab
+		var bullet = (GameObject)Instantiate(
+			bulletPrefab,
+			bulletSpawn.position,
+			bulletSpawn.rotation);
+
+		// Add velocity to the bullet
+		bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+
+		// Spawn the bullet on the Clients
+		NetworkServer.Spawn(bullet);
+
+		// Destroy the bullet after 2 seconds
+		Destroy(bullet, 2.0f);        
 	}
 }
