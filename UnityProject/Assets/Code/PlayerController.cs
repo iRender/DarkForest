@@ -4,10 +4,19 @@ using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
 {
-	[SyncVar] // 用来标记同步成员变量，可以是任何基本数据类型，但不能是类、列表或其他集合
-	Vector3 synsPos;
+	[SyncVar]  
+	private Vector3 syncPlayerPos;
 
-	public float lerpRate = 15;
+	[SyncVar]  
+	private Quaternion syncPlayerRotate;
+
+	private float speed = 10f;
+	private float rotateSpeed = 60f;
+
+	public override void OnStartLocalPlayer()
+	{
+		GetComponent<MeshRenderer>().material.color = Color.red;
+	}
 
 	void Update ()
 	{
@@ -15,38 +24,38 @@ public class PlayerController : NetworkBehaviour
 			return;
 		}
 
-		var x = Input.GetAxis ("Horizontal") * Time.deltaTime * 150.0f;
-		var z = Input.GetAxis ("Vertical") * Time.deltaTime * 3.0f;
+		float Hor = Input.GetAxis ("Horizontal");
+		float ver = Input.GetAxis ("Vertical");
 
-		transform.Rotate (0, x, 0);
-		transform.Translate (0, 0, z);
+		transform.Translate(Hor * Time.deltaTime * speed, 0, ver * speed * Time.deltaTime);  
+		transform.Rotate(new Vector3(0, rotateSpeed * Hor * Time.deltaTime, 0)); 
 	}
 
 	void FixedUpdate()
 	{
-		TransmitPosition();
-		LerpPosition();
-	}
-
-	void LerpPosition()
-	{
-		if (!isLocalPlayer)
-		{
-			transform.position = Vector3.Lerp(transform.position, synsPos, Time.deltaTime);
-		}
-	}
-	[Command] // 新的网络系统中的RPC,即在客户端调用，在服务器执行。还有一种是ClientRpcCalls,正好相反
-	void CmdProvidePositionToServer(Vector3 pos) // 方法以Cmd开头，使用此命令的任意参数都会被传递到服务器端
-	{
-		synsPos = pos;
-	}
-
-	[ClientCallback] // 可作为成员函数的自定义属性
-	void TransmitPosition()
-	{
+		//如果是本地创建 则把数据更新至服务器 通过SyncVar 发送给所有的客户端
 		if (isLocalPlayer)
 		{
-			CmdProvidePositionToServer(transform.position);
+			CmdSendServerPos(transform.position,transform.rotation);
 		}
+		else
+		{
+			//如果不是本地创建 则 插值移动（所谓的镜像移动）
+			LerpPosition();
+		}
+	}
+
+	//插值移动  
+	void LerpPosition()
+	{
+		transform.position = Vector3.Lerp(transform.position, syncPlayerPos, 5 * Time.fixedDeltaTime);
+		transform.rotation = Quaternion.Lerp(transform.rotation,syncPlayerRotate,5 * Time.fixedDeltaTime);
+	}
+
+	[Command] 
+	public void CmdSendServerPos(Vector3 pos,Quaternion rotate)
+	{
+		syncPlayerPos = pos;
+		syncPlayerRotate = rotate;
 	}
 }
