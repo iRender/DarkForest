@@ -15,7 +15,7 @@ public class NetHUD : MonoBehaviour {
 	public void CreateHost()
 	{
 		NetworkManager.singleton.networkPort = int.Parse (Port);
-		NetworkManager.singleton.StartHost ();
+		NetworkManager.singleton.StartServer ();
 	}
 
 	public void Connect()

@@ -28,14 +28,12 @@ public class GameNetDiscover : NetworkDiscovery
 		Debug.LogWarning ("StartAsClient");
 		StartAsClient ();
 
-
 		LeanTween.delayedCall (MatchTime, () => {
 			if (matched == false) {
-				NetworkManager.singleton.StartHost ();
 				Debug.LogWarning ("StartAsServer");
+				NetworkManager.singleton.StartHost ();
 				StartAsServer ();
 			}
-
 		});
 	}
 }
