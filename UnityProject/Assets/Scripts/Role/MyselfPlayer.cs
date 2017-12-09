@@ -9,6 +9,7 @@ public class MyselfPlayer : Role
 	public override void OnAwake()
 	{
 		m_instance = this;
+		m_type = E_Type.Myself;
 	}
 
 	public override void OnUpdate()

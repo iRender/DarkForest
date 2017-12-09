@@ -3,10 +3,23 @@ using System.Collections;
 
 public class Role : MonoBehaviour
 {
+	public enum E_Type
+	{
+		None,
+		Myself
+	}
+	public E_Type m_type;
+
+	public int m_id;
+
 	public UISpriteAnimation m_animRun;
+	public UISprite m_spRun;
 	public UISpriteAnimation m_animIdle;
+	public UISprite m_spIdle;
 	public UISpriteAnimation m_animAttack;
+	public UISprite m_spAttack;
 	public UISpriteAnimation m_animDead;
+	public UISprite m_spDead;
 
 	public float m_initMoveSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
@@ -53,9 +66,18 @@ public class Role : MonoBehaviour
 		}
 	}
 
+	public float PosYValue
+	{
+		get
+		{ 
+			return transform.localPosition.y;
+		}
+	}
+
 	void Awake()
 	{
 		m_animRun.Pause ();
+		RolesManager.ins.AddRole (this);
 
 		OnAwake ();
 	}
@@ -145,5 +167,13 @@ public class Role : MonoBehaviour
 	{
 		m_animIdle.gameObject.SetActive (false);
 		m_animRun.gameObject.SetActive (false);
+	}
+
+	public void SetDepth(int depth)
+	{
+		m_spIdle.depth = depth;
+		m_spRun.depth = depth;
+//		m_spAttack.depth = depth;
+//		m_spDead.depth = depth;
 	}
 }
