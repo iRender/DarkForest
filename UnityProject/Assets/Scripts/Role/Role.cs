@@ -215,12 +215,10 @@ public class Role : MonoBehaviour
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
 			ChestTile gt = coll.GetComponent<ChestTile> ();
-			OpenBox (gt);
-			gt.gameObject.SetActive (false);
 		} 
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			Hide ();
 			m_countGrassColl++;
-			OpenVP ();
 		} 
 	}
 
@@ -228,10 +226,10 @@ public class Role : MonoBehaviour
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			Show ();
 			m_countGrassColl--;
 			if (m_countGrassColl <= 0) {
 				CloseViewPort ();
-				m_vp.ViewHide ();
 				coll.GetComponent<GrassTile> ().ViewHide ();
 			}
 		} 
@@ -269,11 +267,24 @@ public class Role : MonoBehaviour
 
 	public void CloseViewPort()
 	{
-		m_vp.gameObject.SetActive (false);
+		if (m_vp != null) {
+			m_vp.gameObject.SetActive (false);
+			m_vp.ViewHide ();
+		}
 	}
 
 	public void OpenVP()
 	{
 		m_vp.gameObject.SetActive (true);
+	}
+
+	public void Hide()
+	{
+		m_sp.enabled = false;
+	}
+
+	public void Show()
+	{
+		m_sp.enabled = true;
 	}
 }
