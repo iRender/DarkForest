@@ -12,4 +12,9 @@ public class BulletsManager : MonoBehaviour {
 		goBullet.transform.localScale = Vector3.one;
 		return goBullet.GetComponent<MyBullet> ();
 	}
+
+	public void DestroyBullet(MyBullet bullet)
+	{
+		GameObject.Destroy (bullet.gameObject);
+	}
 }

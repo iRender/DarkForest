@@ -4,6 +4,7 @@ using System.Collections;
 public class MyBullet : MonoBehaviour
 {
 	public Vector2 m_moveSpeed = Vector2.zero;
+	public Role m_owner;
 
 	public Vector2 Current2DPos
 	{
@@ -37,14 +38,25 @@ public class MyBullet : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		GameManager.Log ("111");
-		Role role = coll.GetComponent<Role> ();
-		Debug.Log (role);
-		if (role != null) {
-			m_moveSpeed = Vector2.zero;
-			Vector2 curPos = transform.localPosition;
-			curPos.y -= role.heigtOfGun;
-			MoveTo (curPos, 0.5f);
+		string collGOName = coll.gameObject.name;
+		if (string.Equals(collGOName, "xxx"))
+		{
+			Role role = coll.transform.parent.GetComponent<Role> ();
+			if (role != null && role.m_id != m_owner.m_id) {
+				m_moveSpeed = Vector2.zero;
+				Vector2 curPos = transform.localPosition;
+				curPos.y -= role.heigtOfGun;
+				MoveTo (curPos, 0.5f);
+			}
+		}
+		if (string.Equals(collGOName, "Anim"))
+		{
+			Role role = coll.transform.parent.GetComponent<Role> ();
+			if (role != null && role.m_id != m_owner.m_id) {
+				GameManager.ins.m_bulletsManager.DestroyBullet (this);
+			}
 		}
 	}
+
+
 }
