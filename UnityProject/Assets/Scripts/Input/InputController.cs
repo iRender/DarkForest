@@ -40,12 +40,20 @@ public class InputController : MonoBehaviour {
 		Vector2 screenCenter = new Vector2 (Screen.width / 2, Screen.height / 2);
 		Vector2 mouseDir = mousePos - screenCenter;
 		MyselfPlayer.m_instance.m_vp.RotateTo (mouseDir);
+		MyselfPlayer.m_instance.m_gun.RotateTo (mouseDir);
 
 		if (Input.GetMouseButtonDown (0)) {
-			MyselfPlayer.m_instance.Attack (-mouseDir);
+			MyselfPlayer.m_instance.Attack (mouseDir);
 		}
 		if (Input.GetMouseButtonDown(1)) {
 
+		}
+
+		if (Input.GetKey ("m")) {
+			MyselfPlayer.m_instance.Acce ();
+		}
+		if (Input.GetKey ("n")) {
+			MyselfPlayer.m_instance.RevertAcce ();
 		}
 	}
 }
