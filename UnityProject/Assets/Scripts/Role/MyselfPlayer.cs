@@ -3,12 +3,9 @@ using System.Collections;
 
 public class MyselfPlayer : Role
 {
-	public static MyselfPlayer m_instance;
-	public StateMachine<State> m_sm;
 
 	public override void OnAwake ()
 	{
-		m_instance = this;
 		m_type = E_Type.Myself;
 	}
 

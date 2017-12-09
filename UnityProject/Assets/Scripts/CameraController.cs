@@ -4,7 +4,7 @@ using System.Collections;
 public class CameraController : MonoBehaviour 
 {
 	public Transform m_myselfTrans;
-	public Transform m_mainPanelTrans;
+	//public Transform m_mainPanelTrans;
 
 	void Start () {
 		
