@@ -21,7 +21,7 @@ public class ChestTile : ItemTile {
         Debug.Log("Trigger:" + collision.gameObject.name);
     }
 
-    public PropType Open() {
+	public void Open() {
 		Destroy (gameObject);
     }
 

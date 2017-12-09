@@ -47,10 +47,28 @@ public class MyselfPlayer : Role
 		base.OnStateChanage (state);
 		Debug.Log ("MyselfPlayer:" + state);
 	}
-
-	public void Collide_Collider (Collider2D coll)
+		
+	public override void Collide_Collider_Enter (Collider2D coll)
 	{
-		GameManager.Log (coll.gameObject.name);
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
+			ChestTile gt = coll.GetComponent<ChestTile> ();
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl++;
+			OpenVP ();
+		} 
+	}
 
+	public override void Collide_Collider_Exit(Collider2D coll)
+	{
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl--;
+			if (m_countGrassColl <= 0) {
+				CloseViewPort ();
+				coll.GetComponent<GrassTile> ().ViewHide ();
+			}
+		} 
 	}
 }
