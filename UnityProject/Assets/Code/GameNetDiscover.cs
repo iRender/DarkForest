@@ -2,40 +2,51 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class GameNetDiscover : NetworkDiscovery
+public class GameNetDiscover : MonoBehaviour
 {
+	public NetworkDiscovery server;
+	public NetworkDiscovery client;
+
+	public bool ShowGUI = true;
+
+	public bool isNetConnect {
+		get {
+			return NetworkManager.singleton.isNetworkActive;
+		}
+	}
+
+	void Start ()
+	{
+		server.showGUI = ShowGUI;
+		client.showGUI = false;
+	}
+
 	public int MatchTime = 5;
 
 	public bool matched = false;
 
-	public override void OnReceivedBroadcast (string fromAddress, string data)
-	{
-		Debug.LogWarning ("match");
-		matched = true;
-
-		NetworkManager.singleton.networkAddress = fromAddress;
-		NetworkManager.singleton.StartClient ();
-	}
-
 	public void Run ()
 	{
-		Initialize ();
-
-		if (matched == true) {
+		if (isNetConnect) {
 			return;
 		}
 
-		Debug.LogWarning ("StartAsClient");
-		StartAsClient ();
-
+		client.gameObject.SetActive (true);
 
 		LeanTween.delayedCall (MatchTime, () => {
-			if (matched == false) {
-				NetworkManager.singleton.StartHost ();
-				Debug.LogWarning ("StartAsServer");
-				StartAsServer ();
+
+			if (!isNetConnect) {
+				client.gameObject.SetActive (false);
+				server.gameObject.SetActive (true);
 			}
 
 		});
 	}
+
+	public void ShutDown ()
+	{
+		server.gameObject.SetActive (false);	
+		client.gameObject.SetActive (false);	
+	}
+
 }

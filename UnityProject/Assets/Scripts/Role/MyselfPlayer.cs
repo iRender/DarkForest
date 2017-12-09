@@ -12,6 +12,11 @@ public class MyselfPlayer : Role
 		m_type = E_Type.Myself;
 	}
 
+	public override void OnStart()
+	{
+		MoveCamera ();
+	}
+
 	public override void OnUpdate()
 	{
 		
@@ -21,7 +26,7 @@ public class MyselfPlayer : Role
 	{
 		base.Move (delta_pos);
 
-//		MoveCamera ();
+		MoveCamera ();
 	}
 
 	public void MoveCamera()
