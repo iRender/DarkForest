@@ -22,7 +22,9 @@ public class MyselfPlayer : Role
 
 	public override void OnUpdate ()
 	{
-		
+		if (Input.GetKeyDown (KeyCode.M)) {
+			data.Cmd_DoChangeState (10);
+		}
 	}
 
 	public override void Move (Vector2 delta_pos)
@@ -38,5 +40,11 @@ public class MyselfPlayer : Role
 //		cameraPos.x = transform.localPosition.x;
 //		cameraPos.y = transform.localPosition.y;
 //		GameManager.ins.m_cameraController.transform.localPosition = cameraPos;
+	}
+
+	public override void OnStateChanage (int state)
+	{
+		base.OnStateChanage (state);
+		Debug.Log ("MyselfPlayer:" + state);
 	}
 }

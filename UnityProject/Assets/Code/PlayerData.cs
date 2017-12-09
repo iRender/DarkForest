@@ -16,18 +16,17 @@ public class PlayerData : NetworkBehaviour
 		}
 	}
 
-	[SyncVar (hook = "OnHpChange")]
-	public int hp = 100;
-
-	public void OnHpChange (int shp)
-	{
-		Debug.Log (shp);
-		Debug.Log (hp);
-		Debug.Log ("Hp Change");
+	public Role role {
+		get { 
+			if (isLocalPlayer) {
+				return transform.FindChild ("MyselfPlayer").GetComponent<Role> ();
+			} else {
+				return transform.FindChild ("Role").GetComponent<Role> ();
+			}
+		}
 	}
 
-	[SyncVar]
-	public int skill = 1;
+
 
 	[SyncVar]
 	public Vector3 synsPos;
@@ -58,21 +57,32 @@ public class PlayerData : NetworkBehaviour
 	}
 
 
-	void OnCollisionEnter (Collision collision)
-	{
-		Debug.Log ("OnCollisionEnter In");
-		if (collision.gameObject.name == "Bullet") {
-			Debug.Log ("OnCollisionEnter In");
-			Debug.Log (hp);
+	//	[SyncVar (hook = "OnHpChange")]
+	//	public int hp = 100;
+	//
+	//	public void OnHpChange (int shp)
+	//	{
+	//		Debug.Log (shp);
+	//		Debug.Log (hp);
+	//		Debug.Log ("Hp Change");
+	//	}
+	//
 
-			hp = hp - 1;
-		}
+	[SyncVar (hook = "OnStateChanage")]
+	public int mstate = 1;
+
+	[ClientCallback]
+	public void OnStateChanage (int state)
+	{
+		role.OnStateChanage (state);
 	}
 
-	void OnCollisionEnter2D (Collision2D coll)
+	[Command]
+	public void Cmd_DoChangeState (int state)
 	{
-		Debug.Log (coll.gameObject.name);
+		mstate = state;
 	}
+
 
 	public GameObject MyselfPlayer;
 	public GameObject Role;
