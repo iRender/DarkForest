@@ -111,7 +111,6 @@ public class Role : MonoBehaviour
 	{
 		float dis = Vector2.Distance (Current2DPos, target_pos);
 		float duration = dis / m_initMoveSpeed;
-		Debug.Log ("111");
 		TweenPosition tp = TweenPosition.Begin (gameObject, duration, target_pos);
 		if (m_acce) {
 			PlayRunAnim ();	
@@ -145,7 +144,7 @@ public class Role : MonoBehaviour
 	public void Dead()
 	{
 		PlayDeadAnim ();
-		MoveSpeed = Vector2.zero;
+		m_moveSpeed = Vector2.zero;
 		m_bDead = true;
 	}
 
@@ -181,11 +180,8 @@ public class Role : MonoBehaviour
 
 	public void PlayDeadAnim ()
 	{
-		m_spAnim.namePrefix = m_deadAnimPre;
-
 		m_spAnim.loop = false;
-		m_spAnim.Play ();
-		Debug.Log (m_deadAnimPre);
+		m_spAnim.namePrefix = m_deadAnimPre;
 	}
 
 	public void SetDepth (int depth)
@@ -243,7 +239,6 @@ public class Role : MonoBehaviour
 
 	public void OpenBox(ChestTile ct)
 	{
-		Debug.Log ("111");
 		PropType pt = ct.Open ();
 		Debug.Log (pt);
 		if (pt == PropType.BurningBottle) {
