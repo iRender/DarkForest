@@ -28,7 +28,7 @@ public class InputController : MonoBehaviour {
 //			moveDir.x = xValueFromK;
 //			moveDir.y = yValueFromK;
 //		}
-		MyselfPlayer.m_instance.MoveDir = moveDir;
+		MyselfPlayer.m_instance.MoveSpeed = moveDir * MyselfPlayer.m_instance.m_initMoveSpeed;
 		if (Input.GetMouseButtonDown (0)) {
 			
 		}

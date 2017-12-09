@@ -4,21 +4,52 @@ using System.Collections;
 public class Role : MonoBehaviour
 {
 	public UISpriteAnimation m_animRun;
-	public float m_speedValue;
-	public bool m_isMoving;
-	public Vector2 m_moveDir;
+	public UISpriteAnimation m_animIdle;
+	public UISpriteAnimation m_animAttack;
+	public UISpriteAnimation m_animDead;
+
+	public float m_initMoveSpeed;
+	public Vector2 m_moveSpeed = Vector2.zero;
+	public Vector2 MoveSpeed
+	{
+		set
+		{ 
+			if (value == Vector2.zero) {
+				Idle ();
+			}
+			m_moveSpeed = value;
+		}
+	}
+	public float MoveSpeedValue
+	{
+		get
+		{ 
+			return m_moveSpeed.magnitude;
+		}
+		set
+		{ 
+			m_moveSpeed = MoveDir * value;
+		}
+	}
 	public Vector2 MoveDir
 	{
 		get
 		{
-			return m_moveDir;
+			return m_moveSpeed.normalized;
 		}
 		set
 		{
-			if (m_moveDir == Vector2.zero) {
-				Idle ();
-			}
-			m_moveDir = value.normalized;
+			m_moveSpeed = value.normalized * MoveSpeedValue;
+		}
+	}
+	public Vector2 Current2DPos
+	{
+		get
+		{ 
+			Vector2 vec2 = Vector2.zero;
+			vec2.x = transform.localPosition.x;
+			vec2.y = transform.localPosition.y;
+			return vec2;
 		}
 	}
 
@@ -34,36 +65,46 @@ public class Role : MonoBehaviour
 		
 	}
 		
-	public void MoveToward(Vector2 direction)
+	public virtual void MoveToward(Vector2 direction)
 	{
-		m_isMoving = true;
 		MoveDir = direction;
-		m_animRun.Play ();
+		PlayRunAnim ();
 	}
 
-	public void Move(Vector2 delta_pos)
+	public virtual void Move(Vector2 delta_pos)
 	{
 		transform.Translate (delta_pos.x, delta_pos.y, 0);
-		m_animRun.Play ();
+		PlayRunAnim ();
+	}
+
+	public virtual void MoveTo(Vector2 target_pos)
+	{
+		float dis = Vector2.Distance (Current2DPos, target_pos);
+		float duration = dis / MoveSpeedValue;
+		TweenPosition tp = TweenPosition.Begin (gameObject, duration, target_pos);
+		tp.method = UITweener.Method.Linear;
 	}
 
 	public void Idle()
 	{
-		m_isMoving = false;
-		m_moveDir = Vector2.zero;
-		m_animRun.Pause ();
+		m_moveSpeed = Vector2.zero;
+		PlayIdleAnim ();
 	}
 
 	public void Attack()
+	{
+		PlayAttackAnim ();
+	}
+
+	public void Gecao()
 	{
 		
 	}
 
 	void Update()
 	{
-		if (m_isMoving) {
-			float deltaDistance = Time.deltaTime * m_speedValue;
-			Vector2 deltaPos = m_moveDir * deltaDistance;
+		if (MoveSpeedValue > 0) {
+			Vector2 deltaPos = m_moveSpeed * Time.deltaTime;
 			Move (deltaPos);
 		}
 
@@ -73,5 +114,36 @@ public class Role : MonoBehaviour
 	public virtual void OnUpdate()
 	{
 		
+	}
+
+	public void PlayRunAnim()
+	{
+		m_animRun.gameObject.SetActive (true);
+		m_animIdle.gameObject.SetActive (false);
+		m_animRun.Play ();
+	}
+
+	public void PlayIdleAnim()
+	{
+		m_animIdle.gameObject.SetActive (true);
+		m_animRun.gameObject.SetActive (false);
+		m_animIdle.Play ();
+	}
+
+	public void PlayGecaoAnim()
+	{
+		
+	}
+
+	public void PlayAttackAnim()
+	{
+		m_animIdle.gameObject.SetActive (false);
+		m_animRun.gameObject.SetActive (false);
+	}
+
+	public void PlayDeadAnim()
+	{
+		m_animIdle.gameObject.SetActive (false);
+		m_animRun.gameObject.SetActive (false);
 	}
 }

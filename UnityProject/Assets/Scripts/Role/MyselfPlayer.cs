@@ -13,10 +13,24 @@ public class MyselfPlayer : Role
 
 	public override void OnUpdate()
 	{
-		if (m_moveDir != Vector2.zero) {
-			float deltaDistance = Time.deltaTime * m_speedValue;
-			Vector2 deltaPos = m_moveDir * deltaDistance;
+		if (m_moveSpeed != Vector2.zero) {
+			Vector2 deltaPos = m_moveSpeed * Time.deltaTime;
 			Move (deltaPos);
 		}
+	}
+
+	public override void Move (Vector2 delta_pos)
+	{
+		base.Move (delta_pos);
+
+		MoveCamera ();
+	}
+
+	public void MoveCamera()
+	{
+		Vector3 cameraPos = GameManager.ins.m_cameraController.transform.localPosition;
+		cameraPos.x = transform.localPosition.x;
+		cameraPos.y = transform.localPosition.y;
+		GameManager.ins.m_cameraController.transform.localPosition = cameraPos;
 	}
 }
