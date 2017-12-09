@@ -15,13 +15,15 @@ public class MyselfPlayer : Role
 	public override void OnStart ()
 	{
 		MoveCamera ();
-		Debug.LogWarning ("MyselfPlayer:" + data.guid);
+		Debug.LogWarning ("MyselfPlayer:" + (data != null ? data.guid.ToString() : ""));
 	}
 
 	public override void OnUpdate ()
 	{
-		if (data.isMyself && Input.GetKeyDown (KeyCode.M)) {
-			data.Cmd_DoChangeState (10);
+		if (data != null) {
+			if (data.isMyself && Input.GetKeyDown (KeyCode.M)) {
+				data.Cmd_DoChangeState (10);
+			}
 		}
 	}
 
@@ -44,5 +46,11 @@ public class MyselfPlayer : Role
 	{
 		base.OnStateChanage (state);
 		Debug.Log ("MyselfPlayer:" + state);
+	}
+
+	public void Collide_Collider (Collider2D coll)
+	{
+		GameManager.Log (coll.gameObject.name);
+
 	}
 }

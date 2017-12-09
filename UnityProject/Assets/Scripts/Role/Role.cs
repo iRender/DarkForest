@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Role : MonoBehaviour, IPlayerReciver
+public class Role : MonoBehaviour
 {
 	public enum E_Type
 	{
@@ -71,6 +71,7 @@ public class Role : MonoBehaviour, IPlayerReciver
 
 	public ViewPort m_vp;
 	public float heigtOfGun;
+	public bool m_bDead;
 
 	void Awake ()
 	{
@@ -88,7 +89,9 @@ public class Role : MonoBehaviour, IPlayerReciver
 	{
 		OnStart ();
 
-		m_id = data.guid;
+		if (data != null) {
+			m_id = data.guid;
+		}
 		RolesManager.ins.AddRole (this);
 	}
 
@@ -128,14 +131,21 @@ public class Role : MonoBehaviour, IPlayerReciver
 		PlayIdleAnim ();
 	}
 
-	public void Attack ()
+	public void Attack (Vector2 dir)
 	{
 		MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
 		bullet.m_owner = this;
 		Vector2 rolePos = Current2DPos;
 		rolePos.y += heigtOfGun;
 		bullet.transform.localPosition = rolePos;
-		bullet.m_moveSpeed = Vector2.right.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
+		bullet.m_moveSpeed = dir.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
+	}
+
+	public void Dead()
+	{
+		PlayDeadAnim ();
+		m_moveSpeed = Vector2.zero;
+		m_bDead = true;
 	}
 
 	void Update ()
@@ -170,6 +180,7 @@ public class Role : MonoBehaviour, IPlayerReciver
 
 	public void PlayDeadAnim ()
 	{
+		m_spAnim.loop = false;
 		m_spAnim.namePrefix = m_deadAnimPre;
 	}
 

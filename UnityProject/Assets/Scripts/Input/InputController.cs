@@ -31,12 +31,7 @@ public class InputController : MonoBehaviour {
 //		}
 		MyselfPlayer.m_instance.MoveSpeed = moveDir * MyselfPlayer.m_instance.m_initMoveSpeed;
 
-		if (Input.GetMouseButtonDown (0)) {
-			MyselfPlayer.m_instance.Attack ();
-		}
-		if (Input.GetMouseButtonDown(1)) {
-			
-		}
+
 			
 //		float xValueFromM = Input.GetAxis ("Mouse X");
 //		float yValueFromM = Input.GetAxis ("Mouse Y");
@@ -45,5 +40,12 @@ public class InputController : MonoBehaviour {
 		Vector2 screenCenter = new Vector2 (Screen.width / 2, Screen.height / 2);
 		Vector2 mouseDir = screenCenter - mousePos;
 		MyselfPlayer.m_instance.m_vp.RotateTo (mouseDir);
+
+		if (Input.GetMouseButtonDown (0)) {
+			MyselfPlayer.m_instance.Attack (-mouseDir);
+		}
+		if (Input.GetMouseButtonDown(1)) {
+
+		}
 	}
 }

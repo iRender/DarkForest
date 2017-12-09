@@ -54,6 +54,7 @@ public class MyBullet : MonoBehaviour
 			Role role = coll.transform.parent.GetComponent<Role> ();
 			if (role != null && role.m_id != m_owner.m_id) {
 				GameManager.ins.m_bulletsManager.DestroyBullet (this);
+				role.Dead ();
 			}
 		}
 	}
