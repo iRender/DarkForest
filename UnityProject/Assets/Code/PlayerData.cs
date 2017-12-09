@@ -16,7 +16,7 @@ public class PlayerData : NetworkBehaviour
 		}
 	}
 
-	public IPlayerReciver role {
+	public IPlayerReciver playerReciver {
 		get { 
 			if (isLocalPlayer) {
 				return transform.FindChild ("MyselfPlayer").GetComponent<IPlayerReciver> ();
@@ -66,17 +66,24 @@ public class PlayerData : NetworkBehaviour
 	public void OnStateChanage (int state)
 	{
 		mstate = state;
-		role.OnStateChanage (state);
+
+		playerReciver.OnStateChanage (state);
 	}
 
 	[Command]
 	public void Cmd_DoChangeState (int state)
 	{
-		Debug.Log ("Cmd_DoChangeState:" + state);
 		mstate = state;
 	}
 
 
+
+
+	[Command]
+	public void Cmd_DoAddBullet (GameObject bullet)
+	{
+		NetworkServer.Spawn (bullet);
+	}
 
 
 
