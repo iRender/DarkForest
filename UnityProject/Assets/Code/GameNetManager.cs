@@ -6,7 +6,8 @@ public class GameNetManager : NetworkManager
 {
 	public override void OnServerAddPlayer (NetworkConnection conn, short playerControllerId)
 	{
-		base.OnServerAddPlayer (conn, playerControllerId);
+		var player = (GameObject)GameObject.Instantiate (playerPrefab, Vector3.zero, Quaternion.identity);  
+		NetworkServer.AddPlayerForConnection (conn, player, playerControllerId);  
 	}
 
 	public override void OnServerRemovePlayer (NetworkConnection conn, UnityEngine.Networking.PlayerController player)

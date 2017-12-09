@@ -60,12 +60,10 @@ public class GameNetDiscover : MonoBehaviour
 	void LateUpdate ()
 	{
 		if (running) {
-			Debug.Log (NetworkManager.singleton.numPlayers);
 			if (NetworkManager.singleton.numPlayers >= PlayerLimitNum) {
 				running = false;
 				server.gameObject.SetActive (false);	
-				Debug.Log ("Load iN");
-				Application.LoadLevelAsync ("Main_Real");
+//				Application.LoadLevelAsync ("Main_Real");
 			}
 		}
 	}

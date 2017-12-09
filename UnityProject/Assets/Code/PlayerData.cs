@@ -4,13 +4,16 @@ using UnityEngine.Networking;
 
 public class PlayerData : NetworkBehaviour
 {
-	public static PlayerData Create (GameObject player)
-	{
-		PlayerData pd = player.GetComponent<PlayerData> ();
-		if (pd == null) {
-			pd = player.AddComponent <PlayerData> ();	
+	public int guid {
+		get { 
+			return (int)netId.Value;
+		}	
+	}
+
+	public bool isMyself {
+		get { 
+			return isLocalPlayer;
 		}
-		return pd;
 	}
 
 	[SyncVar (hook = "OnHpChange")]
