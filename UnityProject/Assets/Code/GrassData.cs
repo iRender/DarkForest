@@ -21,6 +21,18 @@ public class GrassData : NetworkBehaviour
 		mstate = state;
 	}
 
+	void Start ()
+	{
+		Cmd_AddGrass ();	
+	}
+
+	[Command]
+	public void Cmd_AddGrass ()
+	{
+		if (isServer) {
+			NetworkServer.Spawn (this.gameObject);
+		}
+	}
 
 	void Update ()
 	{

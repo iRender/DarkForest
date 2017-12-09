@@ -99,4 +99,43 @@ public class PlayerData : NetworkBehaviour
 
 		GameObject.DontDestroyOnLoad (this.gameObject);
 	}
+
+	[Command]
+	public void Cmd_AddGrass ()
+	{
+		
+	}
+
+	void Update ()
+	{
+		if (!isLocalPlayer) {
+			return;
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			CmdFire ();
+		}
+	}
+
+	public GameObject bulletPrefab;
+
+	[Command]
+	void CmdFire ()
+	{
+		// Create the Bullet from the Bullet Prefab
+		var bullet = (GameObject)Instantiate (
+			             bulletPrefab,
+			             Vector3.zero,
+			             Quaternion.identity);
+
+		// Add velocity to the bullet
+//		bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * 6;
+
+		// Spawn the bullet on the Clients
+		NetworkServer.Spawn (bullet);
+
+		// Destroy the bullet after 2 seconds
+//		Destroy (bullet, 2.0f);        
+	}
+
 }
