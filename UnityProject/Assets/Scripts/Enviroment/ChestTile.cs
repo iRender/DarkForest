@@ -22,10 +22,7 @@ public class ChestTile : ItemTile {
     }
 
     public PropType Open() {
-		if (open != null) {
-			open.Play();
-		}
-		return proptype;
+		Destroy (gameObject);
     }
 
 }
