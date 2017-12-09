@@ -17,7 +17,6 @@ public class GrassTile : LandTile
 
 	void Start()
 	{
-		Sway ();
 	}
 	
 	public void Sway()
@@ -27,6 +26,7 @@ public class GrassTile : LandTile
 
 	public void Burn()
 	{
+		anim.namePrefix = burnAnim;
 		sprite.spriteName = burned;
 	}
 
@@ -42,6 +42,7 @@ public class GrassTile : LandTile
 
 	public void Cut()
 	{
+		anim.namePrefix = cutAnim;
 		sprite.spriteName = cutted;
 	}
 

@@ -163,7 +163,7 @@ public class GrassLand : MonoBehaviour
         if (collider != null)
         {
 			Vector3 l = uisprite.transform.localPosition;
-			uisprite.transform.localPosition = new Vector3 (l.x, l.y + uisprite.height / 2 - collider.offset.y, l.z);
+			uisprite.transform.localPosition = new Vector3 (l.x - (uisprite.width - 165) / 2, l.y - (uisprite.height / 2 - collider.offset.y) / 2, l.z);
         }
 
 	}
