@@ -70,4 +70,13 @@ public class PlayerData : NetworkBehaviour
 	{
 		Debug.Log (coll.gameObject.name);
 	}
+
+	public GameObject MyselfPlayer;
+	public GameObject Role;
+
+	void Start ()
+	{
+		MyselfPlayer.gameObject.SetActive (isLocalPlayer);
+		Role.gameObject.SetActive (!isLocalPlayer);
+	}
 }
