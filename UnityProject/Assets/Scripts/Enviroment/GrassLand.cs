@@ -144,7 +144,7 @@ public class GrassLand : MonoBehaviour
 	void SetSprite (UISprite uisprite, int row, int column, int depth)
 	{
         uisprite.gameObject.layer = SortingLayer.NameToID("UI");
-		uisprite.pivot = UIWidget.Pivot.BottomLeft;
+		uisprite.pivot = UIWidget.Pivot.Center;
 		uisprite.depth = depth - row;
 		float aspect = (float)uisprite.GetAtlasSprite ().width / (float)uisprite.GetAtlasSprite ().height;
 		uisprite.aspectRatio = aspect;
