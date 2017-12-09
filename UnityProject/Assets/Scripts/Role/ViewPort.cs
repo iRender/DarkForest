@@ -49,4 +49,22 @@ public class ViewPort : MonoBehaviour {
 		transform.localRotation = quat;
 //		Rotate (-angle);
 	}
+
+	void OnTriggerEnter2D(Collider2D coll)
+	{
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			GrassTile gt = coll.GetComponent<GrassTile> ();
+			gt.ViewClear ();
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D coll)
+	{
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			GrassTile gt = coll.GetComponent<GrassTile> ();
+			gt.ViewHide ();
+		}
+	}
 }

@@ -27,25 +27,15 @@ public class Role : MonoBehaviour
 			if (value == Vector2.zero) {
 				Idle ();
 			}
-			m_moveSpeed = value;
+			if (m_acce) {
+				m_moveSpeed = value * m_acceRatio;
+			} else {
+				m_moveSpeed = value;
+			}
 		}
-	}
-
-	public float MoveSpeedValue {
-		get { 
-			return m_moveSpeed.magnitude;
-		}
-		set { 
-			m_moveSpeed = MoveDir * value;
-		}
-	}
-
-	public Vector2 MoveDir {
-		get {
-			return m_moveSpeed.normalized;
-		}
-		set {
-			m_moveSpeed = value.normalized * MoveSpeedValue;
+		get
+		{ 
+			return m_moveSpeed;
 		}
 	}
 
@@ -72,6 +62,12 @@ public class Role : MonoBehaviour
 	public ViewPort m_vp;
 	public float heigtOfGun;
 	public bool m_bDead;
+
+	public bool m_acce;
+	public float m_acceRatio;
+	public UISprite m_spGun;
+	public Gun m_gun;
+	public Bottle m_bottle;
 
 	void Awake ()
 	{
@@ -100,12 +96,6 @@ public class Role : MonoBehaviour
 		
 	}
 
-	public virtual void MoveToward (Vector2 direction)
-	{
-		m_moveSpeed = direction.normalized * m_initMoveSpeed; 
-		PlayRunAnim ();
-	}
-
 	public virtual void Move (Vector2 delta_pos)
 	{
 		Vector2 targetPos = Current2DPos + delta_pos;
@@ -120,7 +110,7 @@ public class Role : MonoBehaviour
 	public virtual void MoveTo (Vector2 target_pos)
 	{
 		float dis = Vector2.Distance (Current2DPos, target_pos);
-		float duration = dis / MoveSpeedValue;
+		float duration = dis / MoveSpeed.magnitude;
 		TweenPosition tp = TweenPosition.Begin (gameObject, duration, target_pos);
 		tp.method = UITweener.Method.Linear;
 	}
@@ -145,14 +135,14 @@ public class Role : MonoBehaviour
 	public void Dead()
 	{
 		PlayDeadAnim ();
-		m_moveSpeed = Vector2.zero;
+		MoveSpeed = Vector2.zero;
 		m_bDead = true;
 	}
 
 	void Update ()
 	{
-		if (MoveSpeedValue > 0) {
-			Vector2 deltaPos = m_moveSpeed * Time.deltaTime;
+		if (MoveSpeed != Vector2.zero) {
+			Vector2 deltaPos = MoveSpeed * Time.deltaTime;
 			Move (deltaPos);
 		}
 
@@ -162,6 +152,11 @@ public class Role : MonoBehaviour
 	public virtual void OnUpdate ()
 	{
 		
+	}
+
+	public void PlayWalkAnim()
+	{
+		m_spAnim.namePrefix = m_walkAnimPre;
 	}
 
 	public void PlayRunAnim ()
@@ -174,15 +169,13 @@ public class Role : MonoBehaviour
 		m_spAnim.namePrefix = m_idleAnimPre;
 	}
 
-	public void PlayWalkAnim ()
-	{
-		m_spAnim.namePrefix = m_walkAnimPre;
-	}
-
 	public void PlayDeadAnim ()
 	{
-		m_spAnim.loop = false;
 		m_spAnim.namePrefix = m_deadAnimPre;
+
+		m_spAnim.loop = false;
+		m_spAnim.Play ();
+		Debug.Log (m_deadAnimPre);
 	}
 
 	public void SetDepth (int depth)
@@ -193,11 +186,13 @@ public class Role : MonoBehaviour
 	public void FaceLeft ()
 	{
 		m_sp.flip = UIBasicSprite.Flip.Nothing;
+//		m_spGun.flip = UIBasicSprite.Flip.Nothing;
 	}
 
 	public void FaceRight ()
 	{
 		m_sp.flip = UIBasicSprite.Flip.Horizontally;
+//		m_spGun.flip = UIBasicSprite.Flip.Horizontally;
 	}
 
 	public void Collide_Collision (Collision2D coll)
@@ -207,11 +202,42 @@ public class Role : MonoBehaviour
 
 	public void Collide_Collider (Collider2D coll)
 	{
-		GameManager.Log (coll.gameObject.name);
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
+			ChestTile gt = coll.GetComponent<ChestTile> ();
+			MyselfPlayer.m_instance.OpenBox (gt);
+			gt.gameObject.SetActive (false);
+		} 
 	}
 
 	public virtual void OnStateChanage (int state)
 	{
 		Debug.Log ("Role:" + state);
+	}
+
+	public void Acce()
+	{
+		m_acce = true;
+	}
+
+	public void RevertAcce()
+	{
+		m_acce = false;
+	}
+
+
+	public void InstallBottle()
+	{
+		
+	}
+
+	public void OpenBox(ChestTile ct)
+	{
+		Debug.Log ("111");
+		PropType pt = ct.Open ();
+		Debug.Log (pt);
+		if (pt == PropType.BurningBottle) {
+			InstallBottle ();
+		}
 	}
 }
