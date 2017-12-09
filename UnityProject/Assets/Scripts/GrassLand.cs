@@ -48,7 +48,7 @@ public class GrassLand : MonoBehaviour
 	public GameLand[] lands;
 	public GameItem[] items;
 
-	private UIRoot _root;
+	private GameObject _root;
 
 
 	private class Tile
@@ -73,7 +73,7 @@ public class GrassLand : MonoBehaviour
 
 	void Awake ()
 	{
-		_root = UIRoot.list [0];
+		_root = this.gameObject;
 	}
 
 	void Start ()
@@ -101,6 +101,8 @@ public class GrassLand : MonoBehaviour
 			tiles [r] = new Tile[columns];
 			for (int c = 0; c < columns; c++) {
 				UISprite soil = Instantiate<UISprite> (soilPrefab);
+				soil.transform.parent = emptyLayer.transform;
+				soil.transform.localScale = Vector3.one;
 				SetSprite (soil, r, c, 100);
 
 				Tile t;
@@ -112,22 +114,26 @@ public class GrassLand : MonoBehaviour
 		// Item Tile
 		foreach (GameItem item in items) {
 			foreach (Int2 area in item.areas) {
-				Tile t = tiles [area.row] [area.column];
-				t.item = Instantiate (item.tile);
+				Tile t = tiles [area.row][area.column];
+				t.item = Instantiate<ItemTile> (item.tile);
+				t.item.transform.parent = itemLayer.transform;
+				t.item.transform.localScale = Vector3.one;
 				t.item.row = area.row;
 				t.item.column = area.column;
-				SetSprite (item.tile.sprite, area.row, area.column, 200);
+				SetSprite (t.item.sprite, area.row, area.column, 200);
 			}
 		}
 
 		// Land Tile
 		foreach (GameLand land in lands) {
-			foreach (Int2 area in land.areas) {
-				Tile t = tiles [area.row] [area.column];
-				t.land = Instantiate (land.tile);
+			foreach (Int2 area in land.areas) { 
+				Tile t = tiles [area.row][area.column];
+				t.land = Instantiate<LandTile> (land.tile);
+				t.land.transform.parent = landLayer.transform;
+				t.land.transform.localScale = Vector3.one;
 				t.land.row = area.row;
 				t.land.column = area.column;
-				SetSprite (land.tile.sprite, area.row, area.column, 300);
+				SetSprite (t.land.sprite, area.row, area.column, 300);
 			}
 		}
 	}
@@ -140,7 +146,7 @@ public class GrassLand : MonoBehaviour
 		uisprite.aspectRatio = 1 / aspect;
 		uisprite.width = tileSize;
 		uisprite.height = (int)(tileSize * aspect);
-		uisprite.transform.localPosition = new Vector3 (column * uisprite.width - Screen.width / 2, row * uisprite.width - Screen.height / 2, 0);
+		uisprite.transform.localPosition = new Vector3 (column * tileSize - Screen.width / 2, row * tileSize - Screen.height / 2, 0);
 	}
 
 	void OnDrawGizmos ()
