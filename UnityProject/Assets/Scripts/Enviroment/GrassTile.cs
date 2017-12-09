@@ -5,6 +5,7 @@ using UnityEngine;
 public class GrassTile : LandTile 
 {
 	public UISpriteAnimation anim;
+	public BoxCollider2D col;
 
 	public string normal;
 	public string burned;
@@ -29,6 +30,9 @@ public class GrassTile : LandTile
 	{
 		anim.namePrefix = burnAnim;
 		sprite.spriteName = burned;
+		col.enabled = false;
+		sprite.spriteName = " ";
+		ViewHide ();
 	}
 
 	public void ViewClear()

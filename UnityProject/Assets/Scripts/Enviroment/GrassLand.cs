@@ -227,15 +227,36 @@ public class GrassLand : MonoBehaviour
 	}
 
 	public Tile GetTile(Vector2 pos) {
-		int r = (int) (pos.y % tileSize);
+		int r = (int) (pos.y / tileSize);
+		Debug.Log ("R" + r);
 		if (r < 0 || r >= rows) {
 			return null;
 		}
-		int c = (int) (pos.x % tileSize);
+		int c = (int) (pos.x / tileSize);
 		if (c < 0 || c >= columns) {
 			return null;
 		}
 		return tiles [r] [c];
+	}
+
+	public void BurningGrass(Vector2 pos)
+	{
+		Tile t = GetTile (pos);
+		Debug.Log ("Tile: " + t.column);
+		if (t != null) {
+			for (int r = t.row-2; r <= t.row+2; r++) {
+				for (int c = t.column-2; c < t.column+2; c++) {
+					if (r >= 0 && r < rows && c >= 0 && c < columns) {
+						Tile tile = tiles [r] [c];
+						if (tile.landType == LandType.Grass) {
+							GrassTile grass = tile.land as GrassTile;
+							grass.Burn ();
+							Debug.Log ("Burn");
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

@@ -210,28 +210,28 @@ public class Role : MonoBehaviour
 	}
 
 	public int m_countGrassColl;
-	public void Collide_Collider_Enter (Collider2D coll)
+	public virtual void Collide_Collider_Enter (Collider2D coll)
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
-			ChestTile gt = coll.GetComponent<ChestTile> ();
+//			ChestTile gt = coll.GetComponent<ChestTile> ();
 		} 
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
-			Hide ();
-			m_countGrassColl++;
+//			Hide ();
+//			m_countGrassColl++;
 		} 
 	}
 
-	public void Collide_Collider_Exit(Collider2D coll)
+	public virtual void Collide_Collider_Exit(Collider2D coll)
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
-			Show ();
-			m_countGrassColl--;
-			if (m_countGrassColl <= 0) {
-				CloseViewPort ();
-				coll.GetComponent<GrassTile> ().ViewHide ();
-			}
+//			Show ();
+//			m_countGrassColl--;
+//			if (m_countGrassColl <= 0) {
+//				CloseViewPort ();
+//				coll.GetComponent<GrassTile> ().ViewHide ();
+//			}
 		} 
 	}
 
@@ -258,7 +258,8 @@ public class Role : MonoBehaviour
 
 	public void OpenBox(ChestTile ct)
 	{
-		PropType pt = ct.Open ();
+		ct.Open ();
+		PropType pt = ct.proptype;
 		Debug.Log (pt);
 		if (pt == PropType.BurningBottle) {
 			InstallBottle ();
