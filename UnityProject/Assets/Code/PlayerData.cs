@@ -16,12 +16,12 @@ public class PlayerData : NetworkBehaviour
 		}
 	}
 
-	public IPlayerServer role {
+	public IPlayerReciver role {
 		get { 
 			if (isLocalPlayer) {
-				return transform.FindChild ("MyselfPlayer").GetComponent<IPlayerServer> ();
+				return transform.FindChild ("MyselfPlayer").GetComponent<IPlayerReciver> ();
 			} else {
-				return transform.FindChild ("Role").GetComponent<IPlayerServer> ();
+				return transform.FindChild ("Role").GetComponent<IPlayerReciver> ();
 			}
 		}
 	}
@@ -57,16 +57,7 @@ public class PlayerData : NetworkBehaviour
 	}
 
 
-	//	[SyncVar (hook = "OnHpChange")]
-	//	public int hp = 100;
-	//
-	//	public void OnHpChange (int shp)
-	//	{
-	//		Debug.Log (shp);
-	//		Debug.Log (hp);
-	//		Debug.Log ("Hp Change");
-	//	}
-	//
+
 
 	[SyncVar (hook = "OnStateChanage")]
 	public int mstate = 1;
@@ -84,6 +75,11 @@ public class PlayerData : NetworkBehaviour
 		Debug.Log ("Cmd_DoChangeState:" + state);
 		mstate = state;
 	}
+
+
+
+
+
 
 
 	public GameObject MyselfPlayer;
