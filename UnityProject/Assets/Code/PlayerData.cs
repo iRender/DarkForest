@@ -78,5 +78,7 @@ public class PlayerData : NetworkBehaviour
 	{
 		MyselfPlayer.gameObject.SetActive (isLocalPlayer);
 		Role.gameObject.SetActive (!isLocalPlayer);
+
+		GameObject.DontDestroyOnLoad (this.gameObject);
 	}
 }
