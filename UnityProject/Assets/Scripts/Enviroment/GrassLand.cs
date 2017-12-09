@@ -40,16 +40,15 @@ public class GameItem
 public class GrassLand : MonoBehaviour
 {
 
-	public int columns = 10;
-	public int rows = 10;
-	public int tileSize = 60;
+	public int columns = 3;
+	public int rows = 3;
 	public UISprite soilPrefab;
 
 	public GameLand[] lands;
 	public GameItem[] items;
 
 	private GameObject _root;
-
+	private int tileSize = 165;
 
 	public class Tile
 	{
@@ -99,6 +98,7 @@ public class GrassLand : MonoBehaviour
         itemLayer.transform.localPosition = Vector3.zero;
         landLayer.transform.localPosition = Vector3.zero;
 
+
 		// Empty Tile
 		for (int r = 0; r < rows; r++) {
 			tiles [r] = new Tile[columns];
@@ -106,8 +106,20 @@ public class GrassLand : MonoBehaviour
 				UISprite soil = Instantiate<UISprite> (soilPrefab);
 				soil.transform.parent = emptyLayer.transform;
 				soil.transform.localScale = Vector3.one;
-				SetSprite (soil, r, c, 100);
+				soil.transform.localPosition = new Vector3 (c * 495, r * 495, 0);
+			}
+		}
 
+
+
+		rows *= 3;
+		columns *= 3;
+
+		tiles = new Tile[rows][];
+
+		for (int r = 0; r < rows; r++) {
+			tiles [r] = new Tile[columns];
+			for (int c = 0; c < columns; c++) {
 				Tile t;
 				t = new Tile ();
 				tiles [r] [c] = t;
@@ -144,19 +156,14 @@ public class GrassLand : MonoBehaviour
 	void SetSprite (UISprite uisprite, int row, int column, int depth)
 	{
         uisprite.gameObject.layer = SortingLayer.NameToID("UI");
-		uisprite.pivot = UIWidget.Pivot.Center;
 		uisprite.depth = depth - row;
-		float aspect = (float)uisprite.GetAtlasSprite ().width / (float)uisprite.GetAtlasSprite ().height;
-		uisprite.aspectRatio = aspect;
-		uisprite.width = tileSize;
-		uisprite.height = (int)(tileSize / aspect);
 		uisprite.transform.localPosition = new Vector3 (column * tileSize, row * tileSize, 0);
 
         BoxCollider2D collider = uisprite.gameObject.GetComponent<BoxCollider2D>();
         if (collider != null)
         {
-            collider.size = uisprite.localSize;
-            collider.offset = new Vector2(uisprite.width / 2, uisprite.height / 2);
+			Vector3 l = uisprite.transform.localPosition;
+			uisprite.transform.localPosition = new Vector3 (l.x, l.y + uisprite.height / 2 - collider.offset.y, l.z);
         }
 
 	}

@@ -4,6 +4,7 @@ using System.Collections;
 public class ChestTile : ItemTile {
 
     public UI2DSpriteAnimation open;
+	public PropType proptype;
 
 	// Use this for initialization
 	void Start () {
@@ -20,8 +21,11 @@ public class ChestTile : ItemTile {
         Debug.Log("Trigger:" + collision.gameObject.name);
     }
 
-    public void Open() {
-        open.Play();
+    public PropType Open() {
+		if (open != null) {
+			open.Play();
+		}
+		return proptype;
     }
 
 }
