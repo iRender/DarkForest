@@ -12,4 +12,9 @@ public class Weapon : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	void OnTriggerEnter(Collider co)
+	{
+		
+	}
 }
