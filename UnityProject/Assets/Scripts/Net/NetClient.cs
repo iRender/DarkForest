@@ -22,7 +22,7 @@ public class NetClient : NetworkDiscovery
 		Debug.LogWarning ("match");
 
 		NetworkManager.singleton.networkAddress = fromAddress;
-		NetworkManager.singleton.networkPort = int.Parse (fromPort);
+		NetworkManager.singleton.networkPort = 4444;
 		NetworkManager.singleton.StartClient ();
 
 		gameObject.SetActive (false);
