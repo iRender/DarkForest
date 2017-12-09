@@ -51,7 +51,7 @@ public class GrassLand : MonoBehaviour
 	private GameObject _root;
 
 
-	private class Tile
+	public class Tile
 	{
 		public LandTile land;
 		public ItemTile item;
@@ -155,5 +155,10 @@ public class GrassLand : MonoBehaviour
         float height = tileSize /Screen.height * rows;
 		Gizmos.DrawLine (new Vector3(height/2, - width/2, 0), Vector3.one * 10);
 	}
+
+    public Tile GetTile(Vector2 point) {
+        Tile t = new Tile();
+        return t;
+    }
 
 }
