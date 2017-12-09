@@ -151,7 +151,9 @@ public class GrassLand : MonoBehaviour
 
 	void OnDrawGizmos ()
 	{
-		Gizmos.DrawLine (Vector3.zero, Vector3.one * 10);
+        float width = tileSize / Screen.width * columns;
+        float height = tileSize /Screen.height * rows;
+		Gizmos.DrawLine (new Vector3(height/2, - width/2, 0), Vector3.one * 10);
 	}
 
 }
