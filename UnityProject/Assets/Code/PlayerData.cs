@@ -16,12 +16,12 @@ public class PlayerData : NetworkBehaviour
 		}
 	}
 
-	public Role role {
+	public IPlayerServer role {
 		get { 
 			if (isLocalPlayer) {
-				return transform.FindChild ("MyselfPlayer").GetComponent<Role> ();
+				return transform.FindChild ("MyselfPlayer").GetComponent<IPlayerServer> ();
 			} else {
-				return transform.FindChild ("Role").GetComponent<Role> ();
+				return transform.FindChild ("Role").GetComponent<IPlayerServer> ();
 			}
 		}
 	}
