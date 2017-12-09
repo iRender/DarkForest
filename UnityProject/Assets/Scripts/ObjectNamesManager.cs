@@ -6,10 +6,12 @@ public class ObjectNamesManager{
 	{
 		None,
 		Role,
-		Grass
+		Grass,
+		Box
 	}
 	public const string roleCollGOName = "Anim";
 	public const string grassCollGOName = "Grass";
+	public const string boxCollGOName = "Chest";
 
 	public static ObjectType GetType(string go_name)
 	{
@@ -19,6 +21,10 @@ public class ObjectNamesManager{
 		else if (go_name.Contains(grassCollGOName))
 		{
 			return ObjectType.Grass;
+		}
+		else if (go_name.Contains(boxCollGOName))
+		{
+			return ObjectType.Box;
 		}
 		return ObjectType.None;
 	}

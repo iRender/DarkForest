@@ -67,6 +67,7 @@ public class Role : MonoBehaviour
 	public float m_acceRatio;
 	public UISprite m_spGun;
 	public Gun m_gun;
+	public Bottle m_bottle;
 
 	void Awake ()
 	{
@@ -170,8 +171,11 @@ public class Role : MonoBehaviour
 
 	public void PlayDeadAnim ()
 	{
-		m_spAnim.loop = false;
 		m_spAnim.namePrefix = m_deadAnimPre;
+
+		m_spAnim.loop = false;
+		m_spAnim.Play ();
+		Debug.Log (m_deadAnimPre);
 	}
 
 	public void SetDepth (int depth)
@@ -198,7 +202,12 @@ public class Role : MonoBehaviour
 
 	public void Collide_Collider (Collider2D coll)
 	{
-		GameManager.Log (coll.gameObject.name);
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
+			ChestTile gt = coll.GetComponent<ChestTile> ();
+			MyselfPlayer.m_instance.OpenBox (gt);
+			gt.gameObject.SetActive (false);
+		} 
 	}
 
 	public virtual void OnStateChanage (int state)
@@ -214,5 +223,21 @@ public class Role : MonoBehaviour
 	public void RevertAcce()
 	{
 		m_acce = false;
+	}
+
+
+	public void InstallBottle()
+	{
+		
+	}
+
+	public void OpenBox(ChestTile ct)
+	{
+		Debug.Log ("111");
+		PropType pt = ct.Open ();
+		Debug.Log (pt);
+		if (pt == PropType.BurningBottle) {
+			InstallBottle ();
+		}
 	}
 }
