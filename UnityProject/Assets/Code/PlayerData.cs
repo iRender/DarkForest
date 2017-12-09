@@ -80,6 +80,7 @@ public class PlayerData : NetworkBehaviour
 	[Command]
 	public void Cmd_DoChangeState (int state)
 	{
+		Debug.Log ("Cmd_DoChangeState:" + state);
 		mstate = state;
 	}
 
