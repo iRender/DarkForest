@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1407607300121116}
+  m_IsPrefabParent: 1
+--- !u!1 &1407607300121116
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4337990615632570}
+  - component: {fileID: 114489112843879264}
+  m_Layer: 0
+  m_Name: GrassLand
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4337990615632570
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407607300121116}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114489112843879264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1407607300121116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b76c03f17aec40d8b717a12224ea2fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  columns: 7
+  rows: 7
+  tileSize: 60
+  soilPrefab: {fileID: 114454534389967778, guid: 3015f927c3cb742f7b1330a780db9515,
+    type: 2}
+  lands:
+  - tile: {fileID: 114581167830493254, guid: 4c71d41a20f734c708a32634dd16cc82, type: 2}
+    areas:
+    - row: 0
+      column: 0
+    - row: 2
+      column: 1
+    - row: 2
+      column: 2
+  items:
+  - tile: {fileID: 114867664625945444, guid: 046a883fecc5f48cfb6fd193d21a6f3d, type: 2}
+    areas:
+    - row: 0
+      column: 0
+    - row: 1
+      column: 1
