@@ -75,6 +75,7 @@ public class Role : MonoBehaviour
 	public string m_deadAnimPre;
 
 	public ViewPort m_vp;
+	public float heigtOfGun;
 
 	void Awake()
 	{
@@ -132,10 +133,11 @@ public class Role : MonoBehaviour
 
 	public void Attack()
 	{
-		MyBullet bullet = BulletsManager.ins.CreateBullet ();
-		bullet.m_initMoveSpeed = BulletsManager.ins.m_flySpeed;
-		bullet.transform.localPosition = transform.localPosition;
-		bullet.MoveSpeed = Vector2.one.normalized * BulletsManager.ins.m_flySpeed;
+		MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
+		Vector2 rolePos = Current2DPos;
+		rolePos.y += heigtOfGun;
+		bullet.transform.localPosition = rolePos;
+		bullet.m_moveSpeed = Vector2.right.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
 	}
 
 	void Update()
@@ -190,11 +192,11 @@ public class Role : MonoBehaviour
 
 	public void Collide_Collision(Collision2D coll)
 	{
-		Debug.Log (coll.gameObject.name);
+		GameManager.Log (coll.gameObject.name);
 	}
 
 	public void Collide_Collider(Collider2D coll)
 	{
-		Debug.Log (coll.gameObject.name);
+		GameManager.Log (coll.gameObject.name);
 	}
 }
