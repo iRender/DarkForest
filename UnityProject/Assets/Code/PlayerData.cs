@@ -44,13 +44,30 @@ public class PlayerData : NetworkBehaviour
 	[Command]
 	public void Cmd_SynsTransform ()
 	{
-		synsPos = transform.position;
-		synsQua = transform.rotation;
+		synsPos = transform.localPosition;
+		synsQua = transform.localRotation;
 	}
 
 	void LerpTransform ()
 	{
-		transform.position = Vector3.Lerp (transform.position, synsPos, Time.deltaTime);
-		transform.rotation = Quaternion.Lerp (transform.rotation, synsQua, 5 * Time.fixedDeltaTime);
+		transform.localPosition = Vector3.Lerp (transform.localPosition, synsPos, Time.deltaTime);
+		transform.localRotation = Quaternion.Lerp (transform.localRotation, synsQua, 5 * Time.fixedDeltaTime);
+	}
+
+
+	void OnCollisionEnter (Collision collision)
+	{
+		Debug.Log ("OnCollisionEnter In");
+		if (collision.gameObject.name == "Bullet") {
+			Debug.Log ("OnCollisionEnter In");
+			Debug.Log (hp);
+
+			hp = hp - 1;
+		}
+	}
+
+	void OnCollisionEnter2D (Collision2D coll)
+	{
+		Debug.Log (coll.gameObject.name);
 	}
 }
