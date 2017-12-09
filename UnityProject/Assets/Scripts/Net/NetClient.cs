@@ -20,9 +20,10 @@ public class NetClient : NetworkDiscovery
 	public override void OnReceivedBroadcast (string fromAddress, string fromPort)
 	{
 		Debug.LogWarning ("match");
+		Debug.LogWarning (fromPort);
 
 		NetworkManager.singleton.networkAddress = fromAddress;
-		NetworkManager.singleton.networkPort = int.Parse (fromPort);
+		NetworkManager.singleton.networkPort = 8888;
 		NetworkManager.singleton.StartClient ();
 
 		gameObject.SetActive (false);
