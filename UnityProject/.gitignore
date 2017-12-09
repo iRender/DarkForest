@@ -3,3 +3,5 @@
 /Assembly-CSharp.csproj
 /UnityProject.sln
 /obj/
+*.userprefs
+*.csproj
