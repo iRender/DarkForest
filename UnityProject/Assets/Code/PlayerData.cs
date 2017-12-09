@@ -13,37 +13,44 @@ public class PlayerData : NetworkBehaviour
 		return pd;
 	}
 
-	[SyncVar]
+	[SyncVar (hook = "OnHpChange")]
 	public int hp = 100;
+
+	public void OnHpChange (int shp)
+	{
+		Debug.Log (shp);
+		Debug.Log (hp);
+		Debug.Log ("Hp Change");
+	}
+
 	[SyncVar]
 	public int skill = 1;
+
 	[SyncVar]
 	public Vector3 synsPos;
+	[SyncVar]
+	public Quaternion synsQua;
 
 	void FixedUpdate ()
 	{
-		TransmitPosition ();
-		LerpPosition ();
-	}
-
-	void LerpPosition ()
-	{
-		if (!isLocalPlayer) {
-			transform.position = Vector3.Lerp (transform.position, synsPos, Time.deltaTime);
+		//如果是本地创建 则把数据更新至服务器 通过SyncVar 发送给所有的客户端
+		if (isLocalPlayer) {
+			Cmd_SynsTransform ();
+		} else {
+			LerpTransform ();
 		}
 	}
 
 	[Command]
-	void CmdProvidePositionToServer (Vector3 pos)
+	public void Cmd_SynsTransform ()
 	{
-		synsPos = pos;
+		synsPos = transform.position;
+		synsQua = transform.rotation;
 	}
 
-	[ClientCallback]
-	void TransmitPosition ()
+	void LerpTransform ()
 	{
-		if (isLocalPlayer) {
-			CmdProvidePositionToServer (transform.position);
-		}
+		transform.position = Vector3.Lerp (transform.position, synsPos, Time.deltaTime);
+		transform.rotation = Quaternion.Lerp (transform.rotation, synsQua, 5 * Time.fixedDeltaTime);
 	}
 }
