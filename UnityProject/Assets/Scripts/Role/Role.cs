@@ -71,7 +71,7 @@ public class Role : MonoBehaviour
 
 	void Awake ()
 	{
-		Idle ();
+		
 
 		OnAwake ();
 	}
@@ -83,12 +83,15 @@ public class Role : MonoBehaviour
 
 	void Start ()
 	{
-		OnStart ();
+		
 
 		if (data != null) {
 			m_id = data.guid;
 		}
 		RolesManager.ins.AddRole (this);
+		Idle ();
+
+		OnStart ();
 	}
 
 	public virtual void OnStart ()
@@ -206,13 +209,31 @@ public class Role : MonoBehaviour
 		GameManager.Log (coll.gameObject.name);
 	}
 
-	public void Collide_Collider (Collider2D coll)
+	public int m_countGrassColl;
+	public void Collide_Collider_Enter (Collider2D coll)
 	{
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
 			ChestTile gt = coll.GetComponent<ChestTile> ();
 			MyselfPlayer.m_instance.OpenBox (gt);
 			gt.gameObject.SetActive (false);
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl++;
+			OpenVP ();
+		} 
+	}
+
+	public void Collide_Collider_Exit(Collider2D coll)
+	{
+		string goName = coll.gameObject.name;
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
+			m_countGrassColl--;
+			if (m_countGrassColl <= 0) {
+				CloseViewPort ();
+				m_vp.ViewHide ();
+				coll.GetComponent<GrassTile> ().ViewHide ();
+			}
 		} 
 	}
 
@@ -244,5 +265,15 @@ public class Role : MonoBehaviour
 		if (pt == PropType.BurningBottle) {
 			InstallBottle ();
 		}
+	}
+
+	public void CloseViewPort()
+	{
+		m_vp.gameObject.SetActive (false);
+	}
+
+	public void OpenVP()
+	{
+		m_vp.gameObject.SetActive (true);
 	}
 }

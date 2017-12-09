@@ -20,6 +20,11 @@ public class ColliderEvent : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
-		m_role.Collide_Collider (coll);
+		m_role.Collide_Collider_Enter (coll);
+	}
+
+	void OnTriggerExit2D(Collider2D coll)
+	{
+		m_role.Collide_Collider_Exit (coll);
 	}
 }
