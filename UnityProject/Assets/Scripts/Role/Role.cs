@@ -88,6 +88,16 @@ public class Role : MonoBehaviour
 		
 	}
 
+	void Start()
+	{
+		OnStart ();
+	}
+
+	public virtual void OnStart()
+	{
+		
+	}
+
 	public virtual void MoveToward(Vector2 direction)
 	{
 		MoveDir = direction;

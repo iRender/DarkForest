@@ -35,7 +35,8 @@ public class InputController : MonoBehaviour {
 		if (Input.GetMouseButtonDown(1)) {
 			
 		}
-		//Debug.Log (Input.GetAxis ("Mouse X"));
-		//Debug.Log (Input.GetAxis ("Mouse Y"));
+		float xValueFromM = Input.GetAxis ("Mouse X");
+		float yValueFromM = Input.GetAxis ("Mouse Y");
+//		Vector2 mouseMove
 	}
 }
