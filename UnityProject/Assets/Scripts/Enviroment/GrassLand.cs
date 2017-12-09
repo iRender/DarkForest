@@ -61,6 +61,8 @@ public class GrassLand : MonoBehaviour
 	{
 		public LandTile land;
 		public ItemTile item;
+		public int row;
+		public int column;
 
 		public LandType landType {
 			get {
@@ -129,6 +131,8 @@ public class GrassLand : MonoBehaviour
 				Tile t;
 				t = new Tile ();
 				tiles [r] [c] = t;
+				t.column = c;
+				t.row = r;
 			}
 		}
 
@@ -169,6 +173,38 @@ public class GrassLand : MonoBehaviour
 			}
 		}
 
+		// Add Chest
+		AddChest(4, itemLayer);
+
+	}
+
+	void AddChest(int count, GameObject itemLayer)
+	{
+		int co = 0;
+		List<Tile> emptyTiles = new List<Tile> ();
+		for (int r = 0; r < rows; r++) {
+			for (int c = 0; c < columns; c++) {
+				Tile t = tiles [r] [c];
+				if (t.landType == LandType.Soil && t.itemType == ItemType.None) {
+					emptyTiles.Add (t);
+					co++;
+				}
+			}
+		}
+		co = Mathf.Min (co, count);
+		for (int i = 0; i < count; i++) {
+			foreach (Tile empty in emptyTiles) {
+				if (empty.itemType == ItemType.None) {
+					empty.item = Instantiate (chestPrefab);
+					empty.item.transform.parent = itemLayer.transform;
+					empty.item.transform.localScale = Vector3.one;
+					empty.item.row = empty.row;
+					empty.item.column = empty.column;
+					SetSprite (empty.item.sprite, empty.row, empty.column, 200);
+					break;
+				}
+			}
+		}
 	}
 
 	void SetSprite (UISprite uisprite, int row, int column, int depth)
