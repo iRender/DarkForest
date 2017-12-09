@@ -27,10 +27,6 @@ public class GameNetDiscover : MonoBehaviour
 
 	public void Run ()
 	{
-		if (isNetConnect) {
-			return;
-		}
-
 		client.gameObject.SetActive (true);
 
 		LeanTween.delayedCall (MatchTime, () => {
@@ -41,12 +37,6 @@ public class GameNetDiscover : MonoBehaviour
 			}
 
 		});
-	}
-
-	public void ShutDown ()
-	{
-		server.gameObject.SetActive (false);	
-		client.gameObject.SetActive (false);	
 	}
 
 }

@@ -74,6 +74,7 @@ public class Role : MonoBehaviour
 	public string m_runAnimPre;
 	public string m_deadAnimPre;
 
+	public ViewPort m_vp;
 
 	void Awake()
 	{
