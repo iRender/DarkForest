@@ -95,6 +95,9 @@ public class GrassLand : MonoBehaviour
 		emptyLayer.transform.localScale = Vector3.one;
 		itemLayer.transform.localScale = Vector3.one;
 		landLayer.transform.localScale = Vector3.one;
+        emptyLayer.transform.localPosition = Vector3.zero;
+        itemLayer.transform.localPosition = Vector3.zero;
+        landLayer.transform.localPosition = Vector3.zero;
 
 		// Empty Tile
 		for (int r = 0; r < rows; r++) {
@@ -140,20 +143,26 @@ public class GrassLand : MonoBehaviour
 
 	void SetSprite (UISprite uisprite, int row, int column, int depth)
 	{
+        uisprite.gameObject.layer = SortingLayer.NameToID("UI");
 		uisprite.pivot = UIWidget.Pivot.BottomLeft;
 		uisprite.depth = depth - row;
-		float aspect = (float)uisprite.GetAtlasSprite ().height / (float)uisprite.GetAtlasSprite ().width;
-		uisprite.aspectRatio = 1 / aspect;
+		float aspect = (float)uisprite.GetAtlasSprite ().width / (float)uisprite.GetAtlasSprite ().height;
+		uisprite.aspectRatio = aspect;
 		uisprite.width = tileSize;
-		uisprite.height = (int)(tileSize * aspect);
-		uisprite.transform.localPosition = new Vector3 (column * tileSize - Screen.width / 2, row * tileSize - Screen.height / 2, 0);
+		uisprite.height = (int)(tileSize / aspect);
+		uisprite.transform.localPosition = new Vector3 (column * tileSize, row * tileSize, 0);
+
+        BoxCollider2D collider = uisprite.gameObject.GetComponent<BoxCollider2D>();
+        if (collider != null)
+        {
+            collider.size = uisprite.localSize;
+            collider.offset = new Vector2(uisprite.width / 2, uisprite.height / 2);
+        }
+
 	}
 
 	void OnDrawGizmos ()
 	{
-        float width = tileSize / Screen.width * columns;
-        float height = tileSize /Screen.height * rows;
-		Gizmos.DrawLine (new Vector3(height/2, - width/2, 0), Vector3.one * 10);
 	}
 
     public Tile GetTile(Vector2 point) {
