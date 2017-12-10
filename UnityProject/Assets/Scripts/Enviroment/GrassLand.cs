@@ -242,7 +242,7 @@ public class GrassLand : MonoBehaviour
 	public void BurningGrass(Vector2 pos)
 	{
 		Tile t = GetTile (pos);
-		Debug.Log ("Tile: " + t.column);
+//		Debug.Log ("Tile: " + t.column);
 		if (t != null) {
 			for (int r = t.row-2; r <= t.row+2; r++) {
 				for (int c = t.column-2; c < t.column+2; c++) {
