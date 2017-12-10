@@ -323,22 +323,29 @@ public class GrassLand : MonoBehaviour
 	{
 		Tile t = GetTile (pos);
 		if (t != null) {
-			for (int r = t.row-1; r <= t.row+1; r++) {
-				for (int c = t.column-1; c < t.column+1; c++) {
-					if (r >= 0 && r < rows && c >= 0 && c < columns) {
-						Tile tile = tiles [r] [c];
-						if (tile.landType == LandType.Soil) {
-							tile.item = Instantiate (bulletPrefab);
-							tile.item.transform.parent = itemLayer.transform;
-							tile.item.transform.localScale = Vector3.one;
-							tile.item.row = r;
-							tile.item.column = c;
-							SetSprite (tile.item.sprite, r, c, 400);
-						}
+			
+		}
+
+		int row = (int) (pos.y / tileSize);
+		int column = (int) (pos.x / tileSize);
+
+		for (int r = row-1; r <= row+1; r++) {
+			for (int c = column-1; c < column+1; c++) {
+				if (r >= 0 && r < rows && c >= 0 && c < columns) {
+					Tile tile = tiles [r] [c];
+					if (tile.itemType == ItemType.None) {
+						tile.item = Instantiate (bulletPrefab);
+						tile.item.transform.parent = itemLayer.transform;
+						tile.item.transform.localScale = Vector3.one;
+						tile.item.row = r;
+						tile.item.column = c;
+						SetSprite (tile.item.sprite, r, c, 400);
+						return;
 					}
 				}
 			}
 		}
+
 	}
 
 }
