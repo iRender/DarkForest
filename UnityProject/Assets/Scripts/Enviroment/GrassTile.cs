@@ -33,6 +33,14 @@ public class GrassTile : LandTile
 		col.enabled = false;
 		sprite.spriteName = " ";
 		ViewHide ();
+
+		List<Role> roles = RolesManager.ins.m_rolesList;
+		foreach (var role in roles) {
+			GrassLand.Tile t = GameManager.ins.m_grassLand.GetTile (role.Current2DPos);
+			if (t.column == column && t.row == row) {
+				role.MissOutGrass ();
+			}
+		}
 	}
 
 	public void ViewClear()
