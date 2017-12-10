@@ -149,6 +149,7 @@ public class Role : MonoBehaviour
 		PlayDeadAnim ();
 		m_moveSpeed = Vector2.zero;
 		m_bDead = true;
+		m_sp.GetComponent<BoxCollider2D> ().enabled = false;
 	}
 
 	void Update ()
@@ -185,6 +186,8 @@ public class Role : MonoBehaviour
 	{
 		m_spAnim.loop = false;
 		m_spAnim.namePrefix = m_deadAnimPre;
+		Debug.Log (m_deadAnimPre);
+		m_spAnim.gameObject.name = "haha11";
 	}
 
 	public void SetDepth (int depth)

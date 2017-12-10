@@ -22,6 +22,8 @@ public class InputController : MonoBehaviour {
 		
 	void Update()
 	{
+		if (m_myselfPlayer.m_bDead)
+			return;
 		Vector2 moveDir = Vector2.zero;
 //		float xValueFromK = Input.GetAxis ("Horizontal");
 //		float yValueFromK = Input.GetAxis ("Vertical");
