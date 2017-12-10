@@ -23,6 +23,7 @@ public class Role : MonoBehaviour
 	public Vector2 m_moveSpeed = Vector2.zero;
 
 	public int bulletCount = 99999;
+	public int fireCount;
 
 	public Vector2 MoveSpeed {
 		set { 
@@ -296,8 +297,11 @@ public class Role : MonoBehaviour
 
 	public void UseBottle(Vector2 dir)
 	{
-		m_bottle.Throw (dir, 0.5f);
-		m_bottle = null;
+		if (true) {
+			m_bottle.Throw (dir, 0.5f);
+			m_bottle = null;
+			fireCount--;
+		}
 	}
 
 	public void OpenBox(ChestTile ct)

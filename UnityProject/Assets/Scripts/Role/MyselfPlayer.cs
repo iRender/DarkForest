@@ -73,6 +73,8 @@ public class MyselfPlayer : Role
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Box) {
 			ChestTile gt = coll.GetComponent<ChestTile> ();
+//			gt.Open ();
+			fireCount++;
 		} 
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			m_countGrassColl++;
