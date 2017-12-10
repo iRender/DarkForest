@@ -10,16 +10,20 @@ public class GrassManager : NetworkBehaviour
 
 	public void AddGrass ()
 	{
-		Cmd_AddGrass ();
+		if (isServer) {
+			_grass = (GameObject)Instantiate (
+				grassPrefab,
+				Vector3.zero,
+				Quaternion.identity);
+			
+			Cmd_AddGrass ();
+		}
 	}
 
 	[Command]
 	void Cmd_AddGrass ()
 	{
-		_grass = (GameObject)Instantiate (
-			grassPrefab,
-			Vector3.zero,
-			Quaternion.identity);
+		
 
 		NetworkServer.Spawn (_grass);
 	}
