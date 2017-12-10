@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ViewPort : MonoBehaviour {
 	public Collider2D m_viewPortColli;
 	public float m_rotateSpeed;
+	public Role m_role;
 
 	void Awake()
 	{
@@ -68,11 +69,12 @@ public class ViewPort : MonoBehaviour {
 			gt.ViewClear ();
 			foreach (Role role in RolesManager.ins.m_rolesList) {
 				Vector2 rolePos = role.Current2DPos;
-				Vector2 rolePos1 = rolePos - GameManager.ins.m_grassLand.transform.localPosition;
+				Vector2 landPos = new Vector2 (GameManager.ins.m_grassLand.transform.localPosition.x,
+					GameManager.ins.m_grassLand.transform.localPosition.y);
+				Vector2 rolePos1 = rolePos - landPos;
 				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos1);
-				GrassTile roleGT = ti as GrassTile;
-				if (roleGT == gt) {
-					role.Occur ();
+				if (ti.column == gt.column && ti.row == gt.row) {
+					role.Occur (m_role.m_id);
 				}
 			}
 			m_listGrass.Add (gt);

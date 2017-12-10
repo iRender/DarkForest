@@ -3,10 +3,12 @@ using System.Collections;
 
 public class MyselfPlayer : Role
 {
-
+	public CameraController cameraCon;
 	public override void OnAwake ()
 	{
 		m_type = E_Type.Myself;
+		CullManager.Me.Register (cameraCon, this);
+		MissInGrass ();
 	}
 
 	public override void OnStart ()
@@ -54,6 +56,7 @@ public class MyselfPlayer : Role
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			m_countGrassColl++;
 			OpenVP ();
+			MissInGrass ();
 		} 
 	}
 
@@ -66,6 +69,13 @@ public class MyselfPlayer : Role
 				CloseViewPort ();
 				coll.GetComponent<GrassTile> ().ViewHide ();
 			}
+			MissOutGrass ();
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Role) {
+			Role role = coll.transform.parent.GetComponent<Role> ();
+			role.MissFromRole (m_id);
 		} 
 	}
+
+
 }

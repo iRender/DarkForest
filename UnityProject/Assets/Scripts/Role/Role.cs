@@ -321,9 +321,24 @@ public class Role : MonoBehaviour
 		m_sp.enabled = true;
 	}
 
-	public void Occur()
+	public void Occur(int player_id)
 	{
-		m_sp.alpha = 0.6f;
+		Messenger.Broadcast<int, int> (GameEventType.Role_Enter_OtherVision, player_id, this.m_id);
+	}
+
+	public void MissInGrass()
+	{
+		Messenger.Broadcast<int> (GameEventType.Role_InGrass, this.m_id);
+	}
+
+	public void MissOutGrass()
+	{
+		Messenger.Broadcast<int> (GameEventType.Role_OutGrass, this.m_id);
+	}
+
+	public void MissFromRole(int player_id)
+	{
+		Messenger.Broadcast<int, int> (GameEventType.Role_Exit_OtherVision, this.m_id, player_id);
 	}
 
 	public void GetBullet()
