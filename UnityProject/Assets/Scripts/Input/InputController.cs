@@ -38,13 +38,14 @@ public class InputController : MonoBehaviour {
 		}
 		if (m_player.GetAxis("MoveY")<0) {
 			moveDir.y += -1;
-            m_myselfPlayer.m_vp.Rotate (90);
+//            m_myselfPlayer.m_vp.Rotate (90);
 		}
         //		if (xValueFromK == 1 || yValueFromK == 1) {
         //			moveDir.x = xValueFromK;
         //			moveDir.y = yValueFromK;
         //		}
         m_myselfPlayer.MoveSpeed = moveDir * m_myselfPlayer.m_initMoveSpeed;
+		m_myselfPlayer.m_vp.RotateTo (moveDir);
 
 
         //		float xValueFromM = Input.GetAxis ("Mouse X");

@@ -303,4 +303,9 @@ public class Role : MonoBehaviour
 	{
 		m_sp.enabled = true;
 	}
+
+	public void Occur()
+	{
+		m_sp.alpha = 0.6f;
+	}
 }
