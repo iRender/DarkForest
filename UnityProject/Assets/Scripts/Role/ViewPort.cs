@@ -63,6 +63,16 @@ public class ViewPort : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll)
 	{
+//		foreach (Role role in RolesManager.ins.m_rolesList) {
+//			Vector2 rolePos = role.Current2DPos;
+//			Vector2 landPos = new Vector2 (GameManager.ins.m_grassLand.transform.localPosition.x,
+//				GameManager.ins.m_grassLand.transform.localPosition.y);
+//			Vector2 rolePos1 = rolePos - landPos;
+//			GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos1);
+//			Debug.LogWarning ("111");
+//			Debug.LogWarning (ti.row);
+//			Debug.LogWarning (ti.column);
+//		}
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			GrassTile gt = coll.GetComponent<GrassTile> ();
@@ -72,12 +82,16 @@ public class ViewPort : MonoBehaviour {
 				Vector2 landPos = new Vector2 (GameManager.ins.m_grassLand.transform.localPosition.x,
 					GameManager.ins.m_grassLand.transform.localPosition.y);
 				Vector2 rolePos1 = rolePos - landPos;
-				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos);
+				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos1);
 				if (ti.column == gt.column && ti.row == gt.row) {
 					role.Occur (m_role.m_id);
 				}
 			}
 			m_listGrass.Add (gt);
+		}
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Role) {
+			Role role = coll.transform.parent.GetComponent<Role> ();
+			role.Occur (m_role.m_id);
 		}
 	}
 
