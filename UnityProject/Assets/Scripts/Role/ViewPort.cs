@@ -72,7 +72,7 @@ public class ViewPort : MonoBehaviour {
 				Vector2 landPos = new Vector2 (GameManager.ins.m_grassLand.transform.localPosition.x,
 					GameManager.ins.m_grassLand.transform.localPosition.y);
 				Vector2 rolePos1 = rolePos - landPos;
-				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos1);
+				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos);
 				if (ti.column == gt.column && ti.row == gt.row) {
 					role.Occur (m_role.m_id);
 				}

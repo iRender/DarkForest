@@ -293,12 +293,13 @@ public class GrassLand : MonoBehaviour
 	}
 
 	public Tile GetTile(Vector2 pos) {
-		int r = (int) (pos.y / tileSize);
+		Vector2 p = pos + new Vector2 (dx, dy);
+		int r = (int) (p.y / tileSize);
 		//Debug.Log ("R: " + r + ",Pos: " + pos);
 		if (r < 0 || r >= rows) {
 			return null;
 		}
-		int c = (int) (pos.x / tileSize);
+		int c = (int) (p.x / tileSize);
 		//Debug.Log ("C: " + c + ",Pos: " + pos);
 		if (c < 0 || c >= columns) {
 			return null;
