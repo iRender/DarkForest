@@ -275,19 +275,6 @@ public class LTDescr{
 		global_counter++;
 	}
 
-	public void clearUp ()
-	{
-		this.trans = null;
-		this.animationCurve = null;
-		this.onUpdateFloat = null;
-		this.onUpdateVector3 = null;
-		this.onUpdateFloatObject = null;
-		this.onUpdateVector3Object = null;
-		this.onComplete = null;
-		this.onCompleteObject = null;
-		this.onCompleteParam = null;
-	}
-
 	/**
 	* Pause a tween
 	* 
@@ -1400,18 +1387,6 @@ public static void reset(){
 	tweens = null;
 }
 
-	public static void CancelAll()
-	{
-		if (tweens != null) {
-			for(i=tweens.Length-1;i>0;i--)
-			{
-				tweens[i].cancel();
-			}
-			//for safe
-			startSearch = 0;
-		}
-	}
-
 public void Update(){
 	LeanTween.update();
 }
@@ -1959,15 +1934,12 @@ public static void update() {
 							AudioSource.PlayClipAtPoint((AudioClip)tween.onCompleteParam, tween.to, tween.from.x);
 						}
 						if(tween.onComplete!=null){
-							Action onComplete = tween.onComplete;
 							removeTween(i);
-							onComplete();
+							tween.onComplete();
 
 						}else if(tween.onCompleteObject!=null){
-							Action<object> onCompleteObject = tween.onCompleteObject;
-							object onCompleteParam = tween.onCompleteParam;
 							removeTween(i);
-							onCompleteObject(onCompleteParam);
+							tween.onCompleteObject(tween.onCompleteParam);
 						}
 
 						#if !UNITY_METRO
@@ -2060,7 +2032,6 @@ public static void removeTween( int i ){
 
 			}
 		}
-		tweens[i].clearUp();
 		//tweens[i].optional = null;
 		startSearch = i;
 		//Debug.Log("start search reset:"+startSearch + " i:"+i+" tweenMaxSearch:"+tweenMaxSearch);
