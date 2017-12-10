@@ -45,7 +45,7 @@ public class GrassTile : LandTile
 
 	public void ViewClear()
 	{
-		sprite.alpha = 0.3f;
+		//sprite.alpha = 0.3f;
 	}
 
 	public void ViewHide()
