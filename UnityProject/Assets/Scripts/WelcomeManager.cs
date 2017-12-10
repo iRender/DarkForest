@@ -13,6 +13,12 @@ public class WelcomeManager : MonoBehaviour {
 	void Update () {
 		if (Input.anyKeyDown) {
 			keyDown.Play ();
+			Invoke ("Next", 1);
 		}
+	}
+
+	void Next()
+	{
+		SceneManager.LoadScene ("Story");
 	}
 }

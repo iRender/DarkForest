@@ -98,6 +98,9 @@ public class GrassLand : MonoBehaviour
 	GameObject itemLayer;
 	GameObject landLayer;
 
+	float dx;
+	float dy;
+
 	void GenerateTile ()
 	{
 		emptyLayer = new GameObject ("Empty");
@@ -113,6 +116,8 @@ public class GrassLand : MonoBehaviour
         itemLayer.transform.localPosition = Vector3.zero;
         landLayer.transform.localPosition = Vector3.zero;
 
+		dx = columns * 495 * 0.5f;
+		dy = rows * 495 * 0.5f;
 
 		// Empty Tile
 		tiles = new Tile[rows][];
@@ -122,7 +127,7 @@ public class GrassLand : MonoBehaviour
 				UISprite soil = Instantiate<UISprite> (soilPrefab);
 				soil.transform.parent = emptyLayer.transform;
 				soil.transform.localScale = Vector3.one;
-				soil.transform.localPosition = new Vector3 (c * 495 - 165, r * 495 - 165, 0);
+				soil.transform.localPosition = new Vector3 (c * 495 - dx - 165, r * 495 - dy - 165, 0);
 			}
 		}
 
@@ -278,7 +283,7 @@ public class GrassLand : MonoBehaviour
         if (collider != null)
         {
 			Vector3 l = uisprite.transform.localPosition;
-			uisprite.transform.localPosition = new Vector3 (l.x - (collider.offset.x - 82.5f), l.y - (collider.offset.y - 82.5f), l.z);
+			uisprite.transform.localPosition = new Vector3 (l.x - (collider.offset.x - 82.5f) - dx, l.y - (collider.offset.y - 82.5f) -  dy, l.z);
         }
 
 	}
@@ -289,11 +294,12 @@ public class GrassLand : MonoBehaviour
 
 	public Tile GetTile(Vector2 pos) {
 		int r = (int) (pos.y / tileSize);
-		Debug.Log ("R" + r);
+		//Debug.Log ("R: " + r + ",Pos: " + pos);
 		if (r < 0 || r >= rows) {
 			return null;
 		}
 		int c = (int) (pos.x / tileSize);
+		//Debug.Log ("C: " + c + ",Pos: " + pos);
 		if (c < 0 || c >= columns) {
 			return null;
 		}
