@@ -66,7 +66,7 @@ public class ViewPort : MonoBehaviour {
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			GrassTile gt = coll.GetComponent<GrassTile> ();
 			gt.ViewClear ();
-			foreach (Role role in RolesManager.ins.m_rolesDic) {
+			foreach (Role role in RolesManager.ins.m_rolesList) {
 				Vector2 rolePos = role.Current2DPos;
 				Vector2 rolePos1 = rolePos - GameManager.ins.m_grassLand.transform.localPosition;
 				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos1);
