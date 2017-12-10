@@ -60,7 +60,7 @@ public class MyBullet : MonoBehaviour
 		}
 		if (string.Equals(collGOName, "Hori(Clone)") || string.Equals(collGOName, "Vert(Clone)")) {
 			GameManager.ins.m_bulletsManager.DestroyBullet (this);
-			GameManager.ins.m_grassLand.GenerateBullet (new Vector2 (transform.localPosition.x, transform.localPosition.y));
+			//GameManager.ins.m_grassLand.GenerateBullet (transform.position);
 		}
 	}
 

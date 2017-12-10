@@ -326,18 +326,18 @@ public class GrassLand : MonoBehaviour
 		}
 	}
 
-	public void GenerateBullet(Vector2 pos)
+	public void GenerateBullet(Vector3 pos)
 	{
-		Tile t = GetTile (pos);
-		if (t != null) {
-			
-		}
+		Vector3 lpos = transform.InverseTransformVector (pos);
 
-		int row = (int) (pos.y / tileSize);
-		int column = (int) (pos.x / tileSize);
+		int row = (int) (lpos.y / tileSize);
+		int column = (int) (lpos.x / tileSize);
+
+
 
 		for (int r = row-1; r <= row+1; r++) {
 			for (int c = column-1; c < column+1; c++) {
+				
 				if (r >= 0 && r < rows && c >= 0 && c < columns) {
 					Tile tile = tiles [r] [c];
 					if (tile.itemType == ItemType.None) {
