@@ -14,7 +14,7 @@ public class MyselfPlayer : Role
 	public override void OnStart ()
 	{
 		MoveCamera ();
-		Debug.LogWarning ("MyselfPlayer:" + (data != null ? data.guid.ToString() : ""));
+//		Debug.LogWarning ("MyselfPlayer:" + (data != null ? data.guid.ToString() : ""));
 	}
 
 	public override void OnUpdate ()
@@ -62,8 +62,8 @@ public class MyselfPlayer : Role
 
 	public override void Collide_Collider_Exit(Collider2D coll)
 	{
-		Debug.LogWarning("MyselfPlayer:Collide_Collider_Exit");
-		Debug.LogWarning (coll.gameObject.name);
+//		Debug.LogWarning("MyselfPlayer:Collide_Collider_Exit");
+//		Debug.LogWarning (coll.gameObject.name);
 		string goName = coll.gameObject.name;
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 			m_countGrassColl--;
@@ -76,12 +76,12 @@ public class MyselfPlayer : Role
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Role) {
 			Role role = coll.transform.parent.GetComponent<Role> ();
 			role.MissFromRole (m_id);
-			Debug.LogWarning ("leave from role");
+//			Debug.LogWarning ("leave from role");
 		} 
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.ViewPort) {
 			Role role = coll.transform.parent.GetComponent<Role> ();
 			role.MissFromRole (m_id);
-			Debug.LogWarning ("leave from vp");
+//			Debug.LogWarning ("leave from vp");
 		} 
 	}
 

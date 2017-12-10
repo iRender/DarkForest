@@ -19,7 +19,7 @@ public class NetClient : NetworkDiscovery
 
 	public override void OnReceivedBroadcast (string fromAddress, string fromPort)
 	{
-		Debug.LogWarning ("match");
+//		Debug.LogWarning ("match");
 
 		NetworkManager.singleton.networkAddress = fromAddress;
 		NetworkManager.singleton.networkPort = 4444;
