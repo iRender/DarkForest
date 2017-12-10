@@ -26,8 +26,8 @@ public class BurningBottle : PropBase {
 
 	void Expolosion()
 	{
-		Vector3 v = des - land.transform.localPosition;
-		land.BurningGrass (new Vector2 (v.x, v.y));
+		Vector3 v = des - GameManager.ins.m_grassLand.transform.localPosition;
+		GameManager.ins.m_grassLand.BurningGrass (new Vector2 (v.x, v.y));
 		Destroy (this.gameObject);
 	}
 
