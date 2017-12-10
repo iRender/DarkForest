@@ -68,10 +68,14 @@ public class MyselfPlayer : Role
 			if (m_countGrassColl <= 0) {
 				CloseViewPort ();
 				coll.GetComponent<GrassTile> ().ViewHide ();
+				MissOutGrass ();
 			}
-			MissOutGrass ();
 		} 
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Role) {
+			Role role = coll.transform.parent.GetComponent<Role> ();
+			role.MissFromRole (m_id);
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.ViewPort) {
 			Role role = coll.transform.parent.GetComponent<Role> ();
 			role.MissFromRole (m_id);
 		} 

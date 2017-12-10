@@ -8,12 +8,14 @@ public class ObjectNamesManager{
 		Role,
 		Grass,
 		Box,
-		Bullet
+		Bullet,
+		ViewPort
 	}
 	public const string roleCollGOName = "Anim";
 	public const string grassCollGOName = "Grass";
 	public const string boxCollGOName = "Chest";
 	public const string bulletCollGOName = "Bullet";
+	public const string vpCollGOName = "Bullet";
 
 	public static ObjectType GetType(string go_name)
 	{
@@ -31,6 +33,10 @@ public class ObjectNamesManager{
 		else if (go_name.Contains(bulletCollGOName))
 		{
 			return ObjectType.Bullet;
+		}
+		else if (go_name.Contains(vpCollGOName))
+		{
+			return ObjectType.ViewPort;
 		}
 		return ObjectType.None;
 	}
