@@ -8,14 +8,10 @@ public enum LandType
 	Grass,
 	Stone,
 	Tree,
-<<<<<<< HEAD
 	Pile,
 	Hillock,
 	BorderHorizontal,
 	BorderVertical
-=======
-	Pile
->>>>>>> e2a645a6852a6938d7c4e0bad31fa44e19c8f0dc
 }
 
 public enum ItemType
@@ -183,8 +179,7 @@ public class GrassLand : MonoBehaviour
 				}
 			}
 		}
-
-<<<<<<< HEAD
+			
 //		// Outer
 //		LandTile pile = null;
 //		List<LandTile> fences = new List<LandTile> ();
@@ -237,9 +232,7 @@ public class GrassLand : MonoBehaviour
 				}
 			}
 		}
-
-=======
->>>>>>> e2a645a6852a6938d7c4e0bad31fa44e19c8f0dc
+			
 		// Add Chest
 		AddChest(4, itemLayer);
 
@@ -317,7 +310,6 @@ public class GrassLand : MonoBehaviour
 						Tile tile = tiles [r] [c];
 						if (tile.landType == LandType.Grass) {
 							GrassTile grass = tile.land as GrassTile;
-<<<<<<< HEAD
 							grass.Burn (); 
 							Destroy (grass.gameObject, 1);
 						}
@@ -342,10 +334,6 @@ public class GrassLand : MonoBehaviour
 							tile.item.row = r;
 							tile.item.column = c;
 							SetSprite (tile.item.sprite, r, c, 400);
-=======
-							grass.Burn ();
-							Debug.Log ("Burn");
->>>>>>> e2a645a6852a6938d7c4e0bad31fa44e19c8f0dc
 						}
 					}
 				}
