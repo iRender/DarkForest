@@ -311,8 +311,8 @@ public class GrassLand : MonoBehaviour
 	{
 		Tile t = GetTile (pos);
 		if (t != null) {
-			for (int r = t.row-2; r <= t.row+2; r++) {
-				for (int c = t.column-2; c < t.column+2; c++) {
+			for (int r = t.row-1; r <= t.row+1; r++) {
+				for (int c = t.column-1; c <= t.column+1; c++) {
 					if (r >= 0 && r < rows && c >= 0 && c < columns) {
 						Tile tile = tiles [r] [c];
 						if (tile.landType == LandType.Grass) {
