@@ -62,7 +62,7 @@ public class InputController : MonoBehaviour {
             m_myselfPlayer.Attack (m_mouseDir);
 		}
 		if (m_player.GetButtonDown("Fire2")) {
-
+			m_myselfPlayer.UseBottle (m_mouseDir);
 		}
 
 		if (m_player.GetButtonDown("Fire3")) {

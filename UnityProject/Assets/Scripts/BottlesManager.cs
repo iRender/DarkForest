@@ -3,17 +3,18 @@ using System.Collections;
 
 public class BottlesManager : MonoBehaviour {
 
-	public GameObject m_prefabBullet;
+	public GameObject m_prefabBottle;
 
-	public void CreateBottle()
+	public BurningBottle CreateBottle()
 	{
-		GameObject goBullet = GameObject.Instantiate (m_prefabBullet);
+		GameObject goBullet = GameObject.Instantiate (m_prefabBottle);
 		goBullet.transform.parent = transform;
 		goBullet.transform.localScale = Vector3.one;
+		return goBullet.GetComponent<BurningBottle> ();
 	}
 
-	public void DestroyBullet()
+	public void DestroyBottle(BurningBottle bb)
 	{
-		
+		GameObject.Destroy (bb.gameObject);
 	}
 }

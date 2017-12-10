@@ -67,7 +67,7 @@ public class Role : MonoBehaviour
 	public float m_acceRatio;
 	public UISprite m_spGun;
 	public Gun m_gun;
-	public Bottle m_bottle;
+	public BurningBottle m_bottle;
 
 	void Awake ()
 	{
@@ -157,6 +157,10 @@ public class Role : MonoBehaviour
 		if (MoveSpeed != Vector2.zero) {
 			Vector2 deltaPos = MoveSpeed * Time.deltaTime;
 			Move (deltaPos);
+		}
+
+		if (m_bottle != null) {
+			m_bottle.transform.localPosition = transform.localPosition;
 		}
 
 		OnUpdate ();
@@ -256,7 +260,12 @@ public class Role : MonoBehaviour
 
 	public void InstallBottle()
 	{
-		
+		m_bottle = GameManager.ins.m_bottleManager.CreateBottle ();
+	}
+
+	public void UseBottle(Vector2 dir)
+	{
+		m_bottle.Throw (dir, 2);
 	}
 
 	public void OpenBox(ChestTile ct)
