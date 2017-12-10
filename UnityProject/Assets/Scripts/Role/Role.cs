@@ -22,7 +22,7 @@ public class Role : MonoBehaviour
 	public float m_initRunSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
 
-	public int bulletCount = 1;
+	public int bulletCount = 99999;
 
 	public Vector2 MoveSpeed {
 		set { 
@@ -89,7 +89,18 @@ public class Role : MonoBehaviour
 
 	void Start ()
 	{
-		
+//		float xValue = 0;
+//		float yValue = 0;
+//		float width = GameManager.ins.m_grassLand.width;
+//		float height = GameManager.ins.m_grassLand.height;
+//		float xValue1 = Random.Range (0, width);
+//		float yValue1 = Random.Range (0, height);
+//		xValue = xValue1 + GameManager.ins.m_grassLand.transform.localPosition.x;
+//		yValue = yValue1 + GameManager.ins.m_grassLand.transform.localPosition.y;
+//		Vector3 localPos = transform.localPosition;
+//		localPos.x = xValue;
+//		localPos.y = yValue;
+//		transform.localPosition = localPos;
 
 		if (data != null) {
 			m_id = data.guid;
@@ -145,7 +156,8 @@ public class Role : MonoBehaviour
 
 	public void Attack (Vector2 dir)
 	{
-		if (bulletCount > 0) {
+//		if (bulletCount > 0) {
+		{
 			m_gun.Shoot ();
 			MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
 			bullet.m_owner = this;
