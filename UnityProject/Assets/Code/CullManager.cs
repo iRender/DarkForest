@@ -36,6 +36,7 @@ public class CullManager :MonoBehaviour
 
 	void Role_InGrass (int roleid)
 	{
+		Debug.LogWarning ("Role_InGrass:" + roleid);
 		_InGrassCache [roleid] = true;
 			
 		UpdateCameraVision ();
@@ -43,6 +44,7 @@ public class CullManager :MonoBehaviour
 
 	void Role_OutGrass (int roleid)
 	{
+		Debug.LogWarning ("Role_OutGrass:" + roleid);
 		_InGrassCache [roleid] = false;
 
 		UpdateCameraVision ();
@@ -50,6 +52,7 @@ public class CullManager :MonoBehaviour
 
 	void Role_Enter_OtherVision (int me, int other)
 	{
+		Debug.LogWarning ("Role_Enter_OtherVision:" + me + "  " + other);
 		List<int> visionlist = _InVisionCache [me];
 		if (visionlist == null) {
 			visionlist = new List<int> ();
@@ -65,6 +68,7 @@ public class CullManager :MonoBehaviour
 
 	void Role_Exit_OtherVision (int me, int other)
 	{
+		Debug.LogWarning ("Role_Exit_OtherVision:" + me + "  " + other);
 		List<int> visionlist = _InVisionCache [me];
 		if (visionlist == null) {
 			return;
