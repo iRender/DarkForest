@@ -17,7 +17,11 @@ public class RolesManager : MonoSingleton<RolesManager>
 	void Update ()
 	{
 		m_rolesList.Sort ((x, y) => {
+			if (x != null && y != null)
+			{
 			return y.PosYValue.CompareTo (x.PosYValue);
+			}
+			return 0;
 		});
 		int depth = 0;
 		foreach (Role role in m_rolesList) {

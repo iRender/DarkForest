@@ -171,6 +171,7 @@ public class Role : MonoBehaviour
 		}
 	}
 
+	public static int rolesCount = 4;
 	public void Dead()
 	{
 		PlayDeadAnim ();
@@ -178,6 +179,11 @@ public class Role : MonoBehaviour
 		m_bDead = true;
 		m_sp.GetComponent<BoxCollider2D> ().enabled = false;
 		PlayEffDead ();
+
+		rolesCount--;
+		if (rolesCount <= 1) {
+			Application.LoadLevel (4);
+		}
 	}
 
 	void Update ()
