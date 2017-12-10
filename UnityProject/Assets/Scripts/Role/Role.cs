@@ -22,6 +22,8 @@ public class Role : MonoBehaviour
 	public float m_initRunSpeed;
 	public Vector2 m_moveSpeed = Vector2.zero;
 
+	public int bulletCount = 1;
+
 	public Vector2 MoveSpeed {
 		set { 
 			if (value == Vector2.zero) {
@@ -69,6 +71,10 @@ public class Role : MonoBehaviour
 	public Gun m_gun;
 	public BurningBottle m_bottle;
 
+	public Transform transEffDead;
+	public UISprite spEffDead;
+	public UISpriteAnimation spAnimEffDead;
+
 	void Awake ()
 	{
 		
@@ -90,6 +96,10 @@ public class Role : MonoBehaviour
 		}
 		RolesManager.ins.AddRole (this);
 		Idle ();
+
+		spEffDead = transEffDead.GetComponent<UISprite> ();
+		spAnimEffDead = transEffDead.GetComponent<UISpriteAnimation> ();
+		spEffDead.enabled = false;
 
 		OnStart ();
 	}
@@ -135,14 +145,17 @@ public class Role : MonoBehaviour
 
 	public void Attack (Vector2 dir)
 	{
-		m_gun.Shoot ();
-		MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
-		bullet.m_owner = this;
-		Vector2 rolePos = Current2DPos;
-		rolePos.y += heigtOfGun;
-		bullet.transform.localPosition = rolePos;
-		bullet.m_moveSpeed = dir.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
-		bullet.RotateTo (dir);
+		if (bulletCount > 0) {
+			m_gun.Shoot ();
+			MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
+			bullet.m_owner = this;
+			Vector2 rolePos = Current2DPos;
+			rolePos.y += heigtOfGun;
+			bullet.transform.localPosition = rolePos;
+			bullet.m_moveSpeed = dir.normalized * GameManager.ins.m_bulletsManager.m_flySpeed;
+			bullet.RotateTo (dir);
+			bulletCount -= 1;
+		}
 	}
 
 	public void Dead()
@@ -151,6 +164,7 @@ public class Role : MonoBehaviour
 		m_moveSpeed = Vector2.zero;
 		m_bDead = true;
 		m_sp.GetComponent<BoxCollider2D> ().enabled = false;
+		PlayEffDead ();
 	}
 
 	void Update ()
@@ -227,6 +241,9 @@ public class Role : MonoBehaviour
 		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Grass) {
 //			Hide ();
 //			m_countGrassColl++;
+		} 
+		if (ObjectNamesManager.GetType(goName) == ObjectNamesManager.ObjectType.Bullet) {
+			
 		} 
 	}
 
@@ -307,5 +324,18 @@ public class Role : MonoBehaviour
 	public void Occur()
 	{
 		m_sp.alpha = 0.6f;
+	}
+
+	public void GetBullet()
+	{
+		bulletCount += 1;
+	}
+
+
+	public void PlayEffDead()
+	{
+		spAnimEffDead.namePrefix = "bullet_effect";
+		spAnimEffDead.loop = false;
+		spAnimEffDead.Play ();
 	}
 }
