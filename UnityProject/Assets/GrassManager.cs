@@ -23,8 +23,6 @@ public class GrassManager : NetworkBehaviour
 	[Command]
 	void Cmd_AddGrass ()
 	{
-		
-
 		NetworkServer.Spawn (_grass);
 	}
 
@@ -36,5 +34,12 @@ public class GrassManager : NetworkBehaviour
 				gd.Cmd_DoChangeState (gd.mstate + 1);
 			}
 		}
+	}
+
+	void Enable ()
+	{
+		Camera camera = GameObject.Find ("Camera1").GetComponent<Camera> ();
+		CullManager.Me.Active_CameraCullPlayer (camera, 1, true);
+		Debug.Log ("in1111111111111111");
 	}
 }

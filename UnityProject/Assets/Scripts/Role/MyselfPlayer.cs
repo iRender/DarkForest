@@ -7,6 +7,12 @@ public class MyselfPlayer : Role
 	public override void OnAwake ()
 	{
 		m_type = E_Type.Myself;
+
+		Camera camera = GameObject.Find ("Camera1").GetComponent<Camera> ();
+		CullManager.Me.Active_CameraCullPlayer (camera, 1, true);
+		CullManager.Me.Active_CameraCullPlayer (camera, 2, false);
+		CullManager.Me.Active_CameraCullPlayer (camera, 3, true);
+		CullManager.Me.Active_CameraCullPlayer (camera, 4, false);
 	}
 
 	public override void OnStart ()
