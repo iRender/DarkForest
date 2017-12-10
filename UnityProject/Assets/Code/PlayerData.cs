@@ -98,6 +98,8 @@ public class PlayerData : NetworkBehaviour
 		Role.gameObject.SetActive (!isLocalPlayer);
 
 		GameObject.DontDestroyOnLoad (this.gameObject);
+
+		GameObject.Find ("GrassManager").GetComponent<GrassManager>().AddGrass();
 	}
 
 	[Command]

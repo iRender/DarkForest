@@ -1,19 +1,45 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Bullet : MonoBehaviour {
+public class Bullet : NetworkBehaviour
+{
+	[SyncVar (hook = "OnStateChanage")]
+	public int mstate = 1;
 
-	public int damage = 50;
-
-	void OnCollisionEnter(Collision collision)
+	[ClientCallback]
+	public void OnStateChanage (int state)
 	{
-		var hit = collision.gameObject;
-		var health = hit.GetComponent<Health>();
-		if (health  != null)
-		{
-			health.TakeDamage(damage);
-		}
+		mstate = state;
+		Debug.Log ("GrassData OnStateChanage:" + state);
+	}
 
-		Destroy(gameObject);
+
+	[Command]
+	public void Cmd_DoChangeState (int state)
+	{
+		mstate = state;
+	}
+
+	void Start ()
+	{
+		Cmd_AddGrass ();	
+	}
+
+	[Command]
+	public void Cmd_AddGrass ()
+	{
+		if (isServer) {
+			NetworkServer.Spawn (this.gameObject);
+		}
+	}
+
+	void Update ()
+	{
+		if (isServer) {
+			if (Input.GetKeyDown (KeyCode.N)) {
+				Cmd_DoChangeState (mstate + 1);
+			}
+		}
 	}
 }
