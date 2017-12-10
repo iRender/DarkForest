@@ -15,7 +15,7 @@ public class ObjectNamesManager{
 	public const string grassCollGOName = "Grass";
 	public const string boxCollGOName = "Chest";
 	public const string bulletCollGOName = "Bullet";
-	public const string vpCollGOName = "Bullet";
+	public const string vpCollGOName = "ViewPort";
 
 	public static ObjectType GetType(string go_name)
 	{
