@@ -168,7 +168,7 @@ public class GrassLand : MonoBehaviour
 		for (int row = 0; row < rows; row++) {
 			for (int column = 0; column < columns; column++) {
 				float r = Random.Range (0.0f, 1.0f);
-				Debug.Log ("Random: " + r);
+//				Debug.Log ("Random: " + r);
 				foreach (var land in lands) {
 					if (land.tile.type != LandType.Soil && r >= land.min && r <= land.max) {
 						Tile t = tiles [row] [column];
@@ -178,7 +178,7 @@ public class GrassLand : MonoBehaviour
 						t.land.row = row;
 						t.land.column = column;
 						SetSprite (t.land.sprite, row, column, 300);
-						Debug.Log ("type: " + land.tile.type + "min: " + land.min + "max: " + land.max);
+//						Debug.Log ("type: " + land.tile.type + "min: " + land.min + "max: " + land.max);
 						break;
 					} 
 				}
