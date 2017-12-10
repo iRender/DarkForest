@@ -10,19 +10,17 @@ public class GrassManager : NetworkBehaviour
 
 	public void AddGrass ()
 	{
-		if (isServer) {
-			_grass = (GameObject)Instantiate (
-				grassPrefab,
-				Vector3.zero,
-				Quaternion.identity);
-			
-			Cmd_AddGrass ();
-		}
+		Cmd_AddGrass ();
 	}
 
 	[Command]
 	void Cmd_AddGrass ()
 	{
+		_grass = (GameObject)Instantiate (
+			grassPrefab,
+			Vector3.zero,
+			Quaternion.identity);
+
 		NetworkServer.Spawn (_grass);
 	}
 
@@ -34,12 +32,5 @@ public class GrassManager : NetworkBehaviour
 				gd.Cmd_DoChangeState (gd.mstate + 1);
 			}
 		}
-	}
-
-	void Enable ()
-	{
-		Camera camera = GameObject.Find ("Camera1").GetComponent<Camera> ();
-		CullManager.Me.Active_CameraCullPlayer (camera, 1, true);
-		Debug.Log ("in1111111111111111");
 	}
 }

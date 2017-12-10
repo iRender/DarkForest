@@ -135,6 +135,7 @@ public class Role : MonoBehaviour
 
 	public void Attack (Vector2 dir)
 	{
+		m_gun.Shoot ();
 		MyBullet bullet = GameManager.ins.m_bulletsManager.CreateBullet ();
 		bullet.m_owner = this;
 		Vector2 rolePos = Current2DPos;
@@ -261,11 +262,13 @@ public class Role : MonoBehaviour
 	public void InstallBottle()
 	{
 		m_bottle = GameManager.ins.m_bottleManager.CreateBottle ();
+		m_bottle.transform.localPosition = transform.localPosition;
 	}
 
 	public void UseBottle(Vector2 dir)
 	{
-		m_bottle.Throw (dir, 2);
+		m_bottle.Throw (dir, 0.5f);
+		m_bottle = null;
 	}
 
 	public void OpenBox(ChestTile ct)

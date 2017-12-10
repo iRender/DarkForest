@@ -99,7 +99,7 @@ public class PlayerData : NetworkBehaviour
 
 		GameObject.DontDestroyOnLoad (this.gameObject);
 
-		GameObject.Find ("GrassManager").GetComponent<GrassManager> ().AddGrass ();
+		GameObject.Find ("GrassManager").GetComponent<GrassManager>().AddGrass();
 	}
 
 	[Command]

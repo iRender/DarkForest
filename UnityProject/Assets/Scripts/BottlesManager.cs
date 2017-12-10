@@ -10,6 +10,7 @@ public class BottlesManager : MonoBehaviour {
 		GameObject goBullet = GameObject.Instantiate (m_prefabBottle);
 		goBullet.transform.parent = transform;
 		goBullet.transform.localScale = Vector3.one;
+		goBullet.transform.localPosition = Vector3.zero;
 		return goBullet.GetComponent<BurningBottle> ();
 	}
 

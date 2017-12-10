@@ -8,8 +8,7 @@ public enum LandType
 	Grass,
 	Stone,
 	Tree,
-	Pile,
-	Hillock
+	Pile
 }
 
 public enum ItemType
@@ -116,13 +115,13 @@ public class GrassLand : MonoBehaviour
 				UISprite soil = Instantiate<UISprite> (soilPrefab);
 				soil.transform.parent = emptyLayer.transform;
 				soil.transform.localScale = Vector3.one;
-				soil.transform.localPosition = new Vector3 (c * 495 - 165, r * 495 - 165, 0);
+				soil.transform.localPosition = new Vector3 (c * 495, r * 495, 0);
 			}
 		}
 
 
-		rows = rows * 3 - 2;
-		columns = columns * 3 - 2;
+		rows *= 3;
+		columns *= 3;
 
 		tiles = new Tile[rows][];
 
@@ -174,29 +173,6 @@ public class GrassLand : MonoBehaviour
 			}
 		}
 
-		// Outer
-		LandTile pile = null;
-		List<LandTile> fences = new List<LandTile> ();
-		foreach (var land in lands) {
-			LandType t = land.tile.type;
-			if (t == LandType.Pile || t == LandType.Stone || t == LandType.Hillock) {
-				fences.Add (land.tile);
-			}
-		}
-
-		if (fences.Count > 0) {
-			for (int r = -1; r <= rows; r++) {
-				for (int c = -1; c <= columns; c++) {
-					if (r == -1 || c == -1 || r == rows || c == columns) {
-						LandTile l = Instantiate (fences[Random.Range(0, fences.Count)]);
-						l.transform.parent = landLayer.transform;
-						l.transform.localScale = Vector3.one;
-						SetSprite (l.sprite, r, c, 300);
-					}
-				}
-			}
-		}
-
 		// Add Chest
 		AddChest(4, itemLayer);
 
@@ -217,17 +193,16 @@ public class GrassLand : MonoBehaviour
 		}
 		co = Mathf.Min (co, count);
 		for (int i = 0; i < count; i++) {
-			int r = i % 4;
-			Tile empty = emptyTiles [Random.Range (emptyTiles.Count / 4 * r, emptyTiles.Count / 4 * (r + 1))];
-			if (empty.itemType == ItemType.None) {
-				empty.item = Instantiate (chestPrefab);
-				empty.item.transform.parent = itemLayer.transform;
-				empty.item.transform.localScale = Vector3.one;
-				empty.item.row = empty.row;
-				empty.item.column = empty.column;
-				SetSprite (empty.item.sprite, empty.row, empty.column, 400);
-			} else {
-				i--;
+			foreach (Tile empty in emptyTiles) {
+				if (empty.itemType == ItemType.None) {
+					empty.item = Instantiate (chestPrefab);
+					empty.item.transform.parent = itemLayer.transform;
+					empty.item.transform.localScale = Vector3.one;
+					empty.item.row = empty.row;
+					empty.item.column = empty.column;
+					SetSprite (empty.item.sprite, empty.row, empty.column, 200);
+					break;
+				}
 			}
 		}
 	}
@@ -267,6 +242,7 @@ public class GrassLand : MonoBehaviour
 	public void BurningGrass(Vector2 pos)
 	{
 		Tile t = GetTile (pos);
+//		Debug.Log ("Tile: " + t.column);
 		if (t != null) {
 			for (int r = t.row-2; r <= t.row+2; r++) {
 				for (int c = t.column-2; c < t.column+2; c++) {
@@ -274,7 +250,8 @@ public class GrassLand : MonoBehaviour
 						Tile tile = tiles [r] [c];
 						if (tile.landType == LandType.Grass) {
 							GrassTile grass = tile.land as GrassTile;
-							grass.Burn (); 
+							grass.Burn ();
+							Debug.Log ("Burn");
 						}
 					}
 				}
