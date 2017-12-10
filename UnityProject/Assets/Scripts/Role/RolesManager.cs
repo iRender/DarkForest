@@ -25,8 +25,10 @@ public class RolesManager : MonoSingleton<RolesManager>
 		});
 		int depth = 0;
 		foreach (Role role in m_rolesList) {
-			role.SetDepth (depth);
-			depth++;
+			if (role != null) {
+				role.SetDepth (depth);
+				depth++;
+			}
 		}
 	}
 

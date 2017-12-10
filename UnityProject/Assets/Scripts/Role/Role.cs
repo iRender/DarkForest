@@ -182,7 +182,7 @@ public class Role : MonoBehaviour
 
 		rolesCount--;
 		if (rolesCount <= 1) {
-			Application.LoadLevel (4);
+			GameManager.ins.GoToGameOver ();
 		}
 	}
 
