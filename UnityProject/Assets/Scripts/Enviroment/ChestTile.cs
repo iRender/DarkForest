@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ChestTile : ItemTile {
 
-    public UI2DSpriteAnimation open;
+	public UISpriteAnimation anim;
 	public PropType proptype;
 
 	// Use this for initialization
@@ -22,7 +22,9 @@ public class ChestTile : ItemTile {
     }
 
 	public void Open() {
-		Destroy (gameObject);
+		Debug.Log ("Open");
+		anim.namePrefix = "get_tresure";
+		Destroy (gameObject, 1f);
     }
 
 }
