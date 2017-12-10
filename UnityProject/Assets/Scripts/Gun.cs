@@ -2,6 +2,24 @@
 using System.Collections;
 
 public class Gun : MonoBehaviour {
+	void Start()
+	{
+		spAnimEffShot = transEffShot.GetComponent<UISpriteAnimation> ();
+		spAnimEffShot.Pause ();
+		spEffShot = transEffShot.GetComponent<UISprite> ();
+		spEffShot.enabled = false;
+	}
+
+	public Transform transEffShot;
+	public UISprite spEffShot;
+	public UISpriteAnimation spAnimEffShot;
+	public void Shoot()
+	{
+		spEffShot.enabled = true;
+		spAnimEffShot.namePrefix = "muzzle_fire";
+		spAnimEffShot.loop = false;
+		spAnimEffShot.Play ();
+	}
 
 	public void RotateTo(Vector2 targetDir)
 	{
