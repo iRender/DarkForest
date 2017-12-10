@@ -203,11 +203,8 @@
  <Reference Include="UnityEditor.TreeEditor">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
- <Reference Include="UnityEditor.Graphs">
- <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ <Reference Include="Rewired_Editor">
+ <HintPath>C:/Users/1/Desktop/DarkForest/UnityProject/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
  </Reference>
  <Reference Include="Rewired_Core">
  <HintPath>C:/Users/1/Desktop/DarkForest/UnityProject/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Core.dll</HintPath>
@@ -215,8 +212,11 @@
  <Reference Include="Rewired_Windows_Lib">
  <HintPath>C:/Users/1/Desktop/DarkForest/UnityProject/Assets/Rewired/Internal/Libraries/Runtime/Rewired_Windows_Lib.dll</HintPath>
  </Reference>
- <Reference Include="Rewired_Editor">
- <HintPath>C:/Users/1/Desktop/DarkForest/UnityProject/Assets/Rewired/Internal/Libraries/Editor/Rewired_Editor.dll</HintPath>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
