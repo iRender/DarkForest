@@ -15,7 +15,7 @@ public class BurningBottle : PropBase {
 
 	public void Throw(Vector3 to, float duration)
 	{
-		transform.parent = bottlesManager;
+		transform.parent = GameManager.ins.m_bottleManager.transform;
 		transform.localScale = Vector3.one;
 		anim.namePrefix = fly;
 		des = transform.localPosition + to.normalized * distance;
