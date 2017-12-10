@@ -4,6 +4,10 @@ using System.Collections;
 public class MyselfPlayer : Role
 {
 	public CameraController cameraCon;
+	public float xValueMi;
+	public float xValueMa;
+	public float yValueMi;
+	public float yValueMa;
 	public override void OnAwake ()
 	{
 		m_type = E_Type.Myself;
@@ -24,6 +28,23 @@ public class MyselfPlayer : Role
 				data.Cmd_DoChangeState (10);
 			}
 		}
+		Vector3 localPos = transform.localPosition;
+		float xValue = localPos.x;
+		float yValue = localPos.y;
+		if (xValue < xValueMi) {
+			xValue = xValueMi;
+		}
+		if (xValue > xValueMa) {
+			xValue = xValueMa;
+		}
+		if (yValue < yValueMi) {
+			yValue = yValueMi;
+		}
+		if (yValue > yValueMa) {
+			yValue = yValueMa;
+		}
+		localPos.x = xValue; localPos.y = yValue;
+		transform.localPosition = localPos;
 	}
 
 	public override void Move (Vector2 delta_pos)

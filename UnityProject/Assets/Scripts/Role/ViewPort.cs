@@ -83,8 +83,10 @@ public class ViewPort : MonoBehaviour {
 					GameManager.ins.m_grassLand.transform.localPosition.y);
 				Vector2 rolePos1 = rolePos - landPos;
 				GrassLand.Tile ti = GameManager.ins.m_grassLand.GetTile (rolePos);
-				if (ti.column == gt.column && ti.row == gt.row) {
-					role.Occur (m_role.m_id);
+				if (ti != null) {
+					if (ti.column == gt.column && ti.row == gt.row) {
+						role.Occur (m_role.m_id);
+					}
 				}
 			}
 			m_listGrass.Add (gt);
