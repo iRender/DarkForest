@@ -9,7 +9,9 @@ public enum LandType
 	Stone,
 	Tree,
 	Pile,
-	Hillock
+	Hillock,
+	BorderHorizontal,
+	BorderVertical
 }
 
 public enum ItemType
@@ -92,11 +94,15 @@ public class GrassLand : MonoBehaviour
 		height = rows * tileSize;
 	}
 
+	GameObject emptyLayer;
+	GameObject itemLayer;
+	GameObject landLayer;
+
 	void GenerateTile ()
 	{
-		GameObject emptyLayer = new GameObject ("Empty");
-		GameObject itemLayer = new GameObject ("Item");
-		GameObject landLayer = new GameObject ("Land");
+		emptyLayer = new GameObject ("Empty");
+		itemLayer = new GameObject ("Item");
+		landLayer = new GameObject ("Land");
 		emptyLayer.transform.parent = _root.transform;
 		itemLayer.transform.parent = _root.transform;
 		landLayer.transform.parent = _root.transform;
@@ -174,25 +180,55 @@ public class GrassLand : MonoBehaviour
 			}
 		}
 
-		// Outer
-		LandTile pile = null;
-		List<LandTile> fences = new List<LandTile> ();
+//		// Outer
+//		LandTile pile = null;
+//		List<LandTile> fences = new List<LandTile> ();
+//		foreach (var land in lands) {
+//			LandType t = land.tile.type;
+//			if (t == LandType.Pile || t == LandType.Stone || t == LandType.Hillock) {
+//				fences.Add (land.tile);
+//			}
+//		}
+//
+//		if (fences.Count > 0) {
+//			for (int r = -1; r <= rows; r++) {
+//				for (int c = -1; c <= columns; c++) {
+//					if (r == -1 || c == -1 || r == rows || c == columns) {
+//						LandTile l = Instantiate (fences[Random.Range(0, fences.Count)]);
+//						l.transform.parent = landLayer.transform;
+//						l.transform.localScale = Vector3.one;
+//						SetSprite (l.sprite, r, c, 300);
+//					}
+//				}
+//			}
+//		}
+
+
+		LandTile ht = null;
+		LandTile vt = null;
 		foreach (var land in lands) {
 			LandType t = land.tile.type;
-			if (t == LandType.Pile || t == LandType.Stone || t == LandType.Hillock) {
-				fences.Add (land.tile);
+			if (t == LandType.BorderHorizontal) {
+				ht = land.tile;
+			}
+			if (t == LandType.BorderVertical) {
+				vt = land.tile;
 			}
 		}
 
-		if (fences.Count > 0) {
-			for (int r = -1; r <= rows; r++) {
-				for (int c = -1; c <= columns; c++) {
-					if (r == -1 || c == -1 || r == rows || c == columns) {
-						LandTile l = Instantiate (fences[Random.Range(0, fences.Count)]);
-						l.transform.parent = landLayer.transform;
-						l.transform.localScale = Vector3.one;
-						SetSprite (l.sprite, r, c, 300);
-					}
+		for (int r = -1; r <= rows; r++) {
+			for (int c = -1; c <= columns; c++) {
+				if (r == -1 || r == rows) {
+					LandTile l = Instantiate (ht);
+					l.transform.parent = landLayer.transform;
+					l.transform.localScale = Vector3.one;
+					SetSprite (l.sprite, r, c, 300);
+				}
+				else if (c == -1 || c == columns) {
+					LandTile l = Instantiate (vt);
+					l.transform.parent = landLayer.transform;
+					l.transform.localScale = Vector3.one;
+					SetSprite (l.sprite, r, c, 300);
 				}
 			}
 		}
@@ -275,6 +311,29 @@ public class GrassLand : MonoBehaviour
 						if (tile.landType == LandType.Grass) {
 							GrassTile grass = tile.land as GrassTile;
 							grass.Burn (); 
+							Destroy (grass.gameObject, 1);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void GenerateBullet(Vector2 pos)
+	{
+		Tile t = GetTile (pos);
+		if (t != null) {
+			for (int r = t.row-1; r <= t.row+1; r++) {
+				for (int c = t.column-1; c < t.column+1; c++) {
+					if (r >= 0 && r < rows && c >= 0 && c < columns) {
+						Tile tile = tiles [r] [c];
+						if (tile.landType == LandType.Soil) {
+							tile.item = Instantiate (bulletPrefab);
+							tile.item.transform.parent = itemLayer.transform;
+							tile.item.transform.localScale = Vector3.one;
+							tile.item.row = r;
+							tile.item.column = c;
+							SetSprite (tile.item.sprite, r, c, 400);
 						}
 					}
 				}
