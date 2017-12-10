@@ -4,6 +4,12 @@ using UnityEngine;
 
 public abstract class GameTile : MonoBehaviour 
 {
+	public static int ids;
+	public int m_id;
+	void Awake()
+	{
+		m_id = ++ids;
+	}
 	[HideInInspector]
 	public int row;
 	[HideInInspector]
